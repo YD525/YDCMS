@@ -16,8 +16,8 @@ namespace WebMaster
 
         #region 字符串加解密
 
-        private static string AESKey = "[45/*BOOKse..e;]";
-        private static string DESKey = "HZCCORE";
+        private static string AESKey = "[12/*BOOKse..e;]";
+        private static string DESKey = "YDCORE";
 
         /// <summary> 
         /// AES加密 
