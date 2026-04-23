@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "RegUser";
+}
+<style>
+    .RegList {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+        .RegList div {
+            padding-top: 10px;
+        }
+
+            .RegList div label {
+                padding-bottom: 5px;
+            }
+
+
+            .RegList div input {
+            }
+</style>
+<div class="container">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <h3>
+                    用户账号注册
+                </h3>
+                <div class="alert alert-success">
+                    <button class="close" type="button" data-dismiss="alert">×</button>
+                    <h4>
+                        提示!
+                    </h4> <strong>警告!</strong> 请注意您的密码不要泄露.
+                </div>
+
+
+
+
+
+
+                <div class="tabbable" id="tabs-966034">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-956176" data-toggle="tab">设置您的账号</a>
+                        </li>
+                        <li>
+                            <a href="#panel-927317" data-toggle="tab">填写您的信息</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-956176">
+
+                            <div class="RegList" style="">
+                                <div class="form-group">
+                                    <label for="name">用户账号</label>
+                                    <input type="text" class="form-control" id="userid" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">用户密码</label>
+                                    <input type="text" class="form-control" id="userpassword" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">授权码</label>
+                                    <input type="text" class="form-control" id="autopass" placeholder="为空是普通用户权限">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="tab-pane" id="panel-927317">
+
+                            <div class="RegList" style="">
+                                <div class="form-group">
+                                    <label for="name">用户姓名</label>
+                                    <input type="text" class="form-control" id="username" placeholder="请输入名称">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">用户性别</label>
+                                    <input type="text" class="form-control" id="usersex" placeholder="请输入性别">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="name">用户邮箱</label>
+                                    <input type="text" class="form-control" id="useremail" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">用户手机号</label>
+                                    <input type="text" class="form-control" id="userphone" placeholder="请输入名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">用户生日</label>
+                                    <input type="text" class="form-control" id="userbirthday" placeholder="年.月.日 多个参数用.隔开">
+                                </div>
+                                <div class="form-group">
+                                    @Html.Raw(HttpUtility.HtmlDecode(WebMaster.HtmlManager.HtmlHelper.createfunctionueinupt("上传用户头像", "userpicpath", "", "hideimage").imagecode))
+                                    <div>
+                                        <label>上传用户头像</label>
+                                        @Html.Raw(HttpUtility.HtmlDecode(WebMaster.HtmlManager.HtmlHelper.createfunctionueinupt("上传用户头像", "userpicpath", "", "", "form-control").inuptcode))
+                                        @Html.Raw(HttpUtility.HtmlDecode(WebMaster.HtmlManager.HtmlHelper.createfunctionueinupt("上传用户头像", "userpicpath", "btn btn-default").buttoncode))
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-block btn-success" type="button" style="margin-top:50px;" onclick="RegUser(this)">立即注册</button>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Raw(HttpUtility.HtmlDecode(WebMaster.HtmlManager.HtmlHelper.createfunctionueinupt("上传用户头像", "userpicpath").scriptcode))
+<script>
+    function RegUser(element) {
+  $.ajax({
+          type: "Get",
+          async: false,
+          dataType: "text",
+          url: "@Html.Raw(HttpUtility.HtmlDecode(WebMaster.DataManager.DeFine.DefWebRequestUrl))",
+      data: "type=Reguser&userid=" + document.getElementById("userid").value + "&userpassword=" + document.getElementById("userpassword").value + "&username=" + document.getElementById("username").value + "&usersex=" + document.getElementById("usersex").value+ "&useremail=" + document.getElementById("useremail").value + "&userphone=" + document.getElementById("userphone").value + "&userbirthday=" + document.getElementById("userbirthday").value + "&userpicpath=" + document.getElementById("imguserpicpath").src  + "&SystemCode=" + document.getElementById("autopass").value,
+         success: function (data)
+         {
+             alert(data);
+         }
+  });
+    }
+</script>

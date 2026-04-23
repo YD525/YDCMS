@@ -1,0 +1,139 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+    <style>
+        .chart {
+            height:500px;
+        }
+    </style>
+<body>
+    <div id="wrapper">
+        {@#code+=nav}
+      <script>
+     SelectNav("图片集管理");
+     </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                   PictureCollectionManagement <small>ViewAndManageQuotedPictures</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+<div id="AutoGetUserCallImage">
+          <div class="col-md-12">
+                    <!--    Context Classes  -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           TheFileThatCurrentlyReferencesThePicture
+                        </div>
+                        <div class="panel-body">
+                          <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>PageName</th>
+                                            <th>Path</th>
+                                            <th>ListofAllPictures</th>
+                                            <th>Number&nbsp;of&nbsp;References</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="LockerHtmlFileImage">
+                                    </tbody>
+                                </table>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    <!--  end  Context Classes  -->
+                </div>
+          <div class="col-md-12">   
+             <div class="panel panel-default">
+                       <div class="panel-heading">
+                           CurrentNumber&nbsp;of&nbsp;IndependentPictures:<a id="StandPicCount" style="color:white;"></a>
+                        </div>
+                        <div class="panel-body">
+                      <button onclick="KillStandImg()">ExceptUnquotedPictures</button>
+                      <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>PicturePath</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="StandPic">
+                                    </tbody>
+                                </table>
+                       </div>
+             </div>
+         </div>
+     
+                <!-- /. ROW  -->
+ {@#code+=footer}
+ <script>
+GetLockerImage();
+function GetLockerImage()
+{
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetLockerImage",
+                    success: function (data) {
+                    
+                            var richtext = "";
+                            for (i = 0; i < data.LockerHtmlFile.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data.LockerHtmlFile[i].HtmlFileName + "</td>";
+                                richtext = richtext + "<td>" + data.LockerHtmlFile[i].HtmlFilePath + "</td>";
+                                richtext = richtext +"<td style='width:500px;'>"
+                                var MaxNumber=0;
+                                if(data.LockerHtmlFile[i].PicPath.length>15)
+                                {
+                                MaxNumber=15;
+                                richtext = richtext +"<a style='width:100%;'>...</a>"
+                                }
+                                else
+                                {
+                                MaxNumber=data.LockerHtmlFile[i].PicPath.length;
+                                }
+                                for(ir=0;ir<MaxNumber;ir++)
+                                {
+                                      richtext = richtext +"<img src='"+data.LockerHtmlFile[i].PicPath[ir]+"' style='width:100px;height:100px;'/>"
+                                }
+                                richtext = richtext +"</td>"
+                                richtext = richtext + "<td>" + data.LockerHtmlFile[i].PicPath.length + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("LockerHtmlFileImage").innerHTML = richtext;
+                            document.getElementById("StandPicCount").innerHTML = data.StandPicPath.length;
+                            richtext ="";
+                            for (i = 0; i < data.StandPicPath.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data.StandPicPath[i] + "</td>";
+                                richtext = richtext + "<td>" + "<a>查看</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("StandPic").innerHTML = richtext;
+                        
+                    }
+                });
+}
+function KillStandImg()
+{
+ $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=KillStandImg",
+                    success: function (data) {
+                    alert("图片删除数量:"+data);
+                    GetLockerImage();
+                    }
+                });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+    <style>
+        .chart {
+            height:500px;
+        }
+    </style>
+<body>
+    <div id="wrapper">
+        {@#code+=nav}
+      <script>
+     SelectNav("系统设置");
+     </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                SystemSettings&nbsp;<small>ViewAndAdjustTheDefaultSettings&nbsp;of&nbsp;TheSystem</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+AdjustGlobalSettings
+</div>
+<div class="panel-body">
+ <div class="form-group">
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>WebsiteDomain</i></span><input type="text" class="form-control" placeholder="Required(str)"  id="WebHost">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>BackendInterfaceAddress</i></span><input type="text" class="form-control" placeholder="ConfigureTheBack-endInterfaceAddress (str)"  id="WebRequestURL">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ParallelAccessPeakLimit</i></span><input type="text" class="form-control" placeholder="Limit Counts of a Single User Accesses the interface in the same time period(int)"  id="WallMaxConnect">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ArticleListPageNamingConvention</i></span><input type="text" class="form-control" placeholder="(TimeStamp)(Random:100-999)(ID)(TIME:YYYY)(RandomChar:XXX)"  id="ActList">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ArticleNamingConvention</i></span><input type="text" class="form-control" placeholder="(TimeStamp)(Random:100-999)(ID)(TIME:YYYY)(RandomChar:XXX)"  id="ActName">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>WebsiteDescriptionContent</i></span><input type="text" class="form-control" placeholder="Website description content"  id="WebDescription">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>WebsiteCopyrightInformation</i></span><input type="text" class="form-control" placeholder="Website copyright Information"  id="BottomCopyright">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>WebsiteRecordNumber</i></span><input type="text" class="form-control" placeholder="Website record number"  id="KeepOnRecord">
+</div>
+<a class="btn btn-success" onclick="SetSetting()" style="float:right;margin-top:25px;">ApplicationSettings</a>
+                
+ </div>
+</div>
+</div>
+</div>
+     
+    <!-- /. ROW  -->
+ {@#code+=footer}
+ <script>
+ GetSetting();
+function GetSetting()
+{
+   var RequestUrl="";
+   RequestUrl=GetWebHost()+"/Web/RequestManager";
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: RequestUrl,
+                    data: "type=GetWebSetting",
+                    success: function (data)
+                    {
+                         document.getElementById("WebHost").value=data.WebHost;
+                         document.getElementById("WebRequestURL").value=data.WebRequestURL;
+                         document.getElementById("WallMaxConnect").value=data.WallMaxConnect;
+                         document.getElementById("WebDescription").value=data.WebDescription;
+                         document.getElementById("BottomCopyright").value=data.BottomCopyright;
+                         document.getElementById("KeepOnRecord").value=data.KeepOnRecord;
+                         document.getElementById("ActList").value=data.ActList;
+                         document.getElementById("ActName").value=data.ActName;
+                    }
+    });
+}
+function SetSetting()
+{
+                var RequestUrl="";
+                RequestUrl=GetWebHost()+"/Web/RequestManager";
+                var PostMsg = new FormData();
+                PostMsg.append('type', "SetWebSetting");
+                PostMsg.append('WebHost',document.getElementById("WebHost").value);
+                PostMsg.append('WebRequestURL',document.getElementById("WebRequestURL").value);
+                PostMsg.append('WallMaxConnect',document.getElementById("WallMaxConnect").value);
+                PostMsg.append('WebDescription',document.getElementById("WebDescription").value);
+                PostMsg.append('BottomCopyright',document.getElementById("BottomCopyright").value);
+                PostMsg.append('KeepOnRecord',document.getElementById("KeepOnRecord").value);
+                PostMsg.append('ActList',document.getElementById("ActList").value);
+                PostMsg.append('ActName',document.getElementById("ActName").value);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url:  RequestUrl,
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    GetSetting();
+                    }
+                });
+    document.getElementById("WebHost").value;
+    document.getElementById("WebRequestHost").value;
+    document.getElementById("WallMaxConnect").value;
+}
+function GetWebHost()
+{
+var ishttps = 'https:' == document.location.protocol ? true : false;
+var domain = window.location.host;
+if(ishttps)
+{
+return "https://"+ domain;
+}
+else
+{
+return "http://"+ domain;
+}
+}
+</script>
+</body>
+</html>

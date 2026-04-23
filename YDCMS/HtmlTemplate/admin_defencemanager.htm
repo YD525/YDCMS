@@ -1,0 +1,222 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+    <style>
+        .chart {
+            height:500px;
+        }
+    </style>
+<body>
+    <div id="wrapper">
+        {@#code+=nav}
+      <script>
+     SelectNav("防御体系");
+     </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                 DefenseDeployment<small> AdjustTheWebSite’s Security Policy</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+TakeWebsiteSafetyCheck
+</div>
+<div class="panel-body">
+ <div class="form-group">
+<div class="progress progress-striped active">
+  <div id="progress" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"  style="width: 0%">
+    <span class="sr-only" id="ProcessRate">40% Complete (success)</span>
+  </div>
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>FilePath</i></span><input type="text" class="form-control" placeholder="当前扫描的路径"  id="FilePath">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>MD5</i></span><input type="text" class="form-control" placeholder="当前文件特征码"  id="FileMd5">
+</div>
+      <div class="table-responsive">    
+                      <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Suggest</th>
+                                            <th>ThreatLevel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ScanMessage">
+                                    </tbody>
+                     </table>
+         </div>
+<a  class="btn btn-success" onclick="CallWebScan()">StartMedicalExamination</a>
+                
+ </div>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+TrojanLibraryConfiguration
+</div>
+<div class="panel-body">
+ <div class="form-group">
+ 
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>MD5</i></span><input type="text" class="form-control" placeholder="文件特征码"  id="FileMD5">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ThreatName</i></span><input type="text" class="form-control" placeholder="威胁的名称"  id="ThreatName">
+</div>
+<a  class="btn btn-success" onclick="" style="margin-top:25px;">UpdateToTrojanLibrary</a>
+                
+ </div>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+LinksHandledByTheCurrentFirewall
+</div>
+<div class="panel-body">
+ <div class="form-group">
+ 
+    <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>IPAddress</th>
+                                            <th>AutoCount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FireWallList">
+                                    </tbody>
+      </table>
+                
+ </div>
+</div>
+</div>
+</div>
+     
+    <!-- /. ROW  -->
+ {@#code+=footer}
+ <script>
+var StartListenMsg="";
+var time = window.setInterval(function () {
+if(StartListenMsg=="true")
+{
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetSecurityScanningData",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + i+ "</td>";
+                                richtext = richtext + "<td>" + data[i].Message+ "</td>";
+                                richtext = richtext + "<td>" + data[i].ThreatLevel+ "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("ScanMessage").innerHTML = richtext;
+                        }
+                        
+                    }
+                });
+                   $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=SecurityScanningMsg",
+                    success: function (data) {
+                    if(data.IsOver=="True")
+                    {
+                       StartListenMsg="false";
+                    }
+                    }
+                });
+}
+ },1000);
+var timeA = window.setInterval(function () {   
+if(StartListenMsg=="true")
+{
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=SecurityScanningMsg",
+                    success: function (data) {
+                   document.getElementById("progress").style="width: "+data.CurrentScanRate+"%";
+                   document.getElementById("ProcessRate").innerHTML=data.CurrentScanRate+"% Complete (success)"
+                   document.getElementById("FilePath").value=data.CurrentPath;
+                   document.getElementById("FileMd5").value=data.CurrentFileMD5;
+                    }
+     });
+}
+ },100);
+ 
+var timeC = window.setInterval(function () {
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetFireWallList",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                if(data[i].MaxConnect>20)
+                                {
+                                   richtext = richtext + "<tr style='background:yellow;color:red;'>";
+                                }
+                                if(data[i].MaxConnect>50)
+                                {
+                                   richtext = richtext + "<tr style='background:red;color:white;'>";
+                                }
+                                if(data[i].MaxConnect<20)
+                                {
+                                   richtext = richtext + "<tr style='background:green;color:white;'>";
+                                }
+                               
+                                richtext = richtext + "<td>" + i+ "</td>";
+                                richtext = richtext + "<td>" + data[i].UserIP+ "</td>";
+                                richtext = richtext + "<td>" + data[i].MaxConnect+ "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("FireWallList").innerHTML = richtext;
+                        }
+                        
+                    }
+                });
+ },1000);
+   
+   function CallWebScan()
+   {
+     $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=SecurityScanning",
+                    success: function (data) {
+                     alert("StartWebScanWorking");
+                     StartListenMsg="true";
+                     document.getElementById("ScanMessage").innerHTML = "";
+                    }
+     });
+   }
+    
+</script>
+</body>
+</html>

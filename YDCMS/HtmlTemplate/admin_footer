@@ -1,0 +1,53 @@
+@->CreatPath=null;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;
+@html->
+
+<script>
+  console.log(navigator.userAgent);
+  var os = function (){
+    var ua = navigator.userAgent,
+    isWindowsPhone = /(?:Windows Phone)/.test(ua),
+    isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+    isAndroid = /(?:Android)/.test(ua),
+    isFireFox = /(?:Firefox)/.test(ua),
+    isChrome = /(?:Chrome|CriOS)/.test(ua),
+    isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+    isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+    isPc = !isPhone && !isAndroid && !isSymbian;
+    return {
+        isTablet: isTablet,
+        isPhone: isPhone,
+        isAndroid: isAndroid,
+        isPc: isPc
+    };
+}();
+
+if (os.isAndroid || os.isPhone)
+ {
+document.getElementById("AutoHide").innerHTML="";
+} else if (os.isTablet) {
+  console.log("平板")
+} else if(os.isPc) {
+  console.log("电脑")
+}
+</script>
+
+<footer>
+<p>Power By:QQ:525084464</p>
+</footer>
+</div>
+<!-- /. PAGE INNER  -->
+</div>
+<!-- /. PAGE WRAPPER  -->
+</div>
+<!-- /. WRAPPER  -->
+<!-- JS Scripts-->
+<!-- jQuery Js -->
+<script src="(@_SystemSetting:DEFURL_@)Scripts/jquery-3.4.1.js"></script>
+<!-- Bootstrap Js -->
+<script src="(@_AutoFindCssPath_@)assets/js/bootstrap.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="(@_AutoFindCssPath_@)assets/js/jquery.metisMenu.js"></script>
+
+
+
+

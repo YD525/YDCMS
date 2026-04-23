@@ -1,0 +1,360 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSJ Southampton</title>
+    <script src="(@_SystemSetting:DEFURL_@)Scripts/jquery-3.4.1.js"></script>
+    <link href="(@_AutoFindCssPath_@)assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="(@_AutoFindCssPath_@)assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="(@_AutoFindCssPath_@)assets/css/custom-styles.css" rel="stylesheet" />
+    <script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+</head>
+    <script>
+        function CallAjax(data, type) {
+        var gettext = "";
+        $.ajax({
+            type: type,
+            async: false,
+            dataType: "text",
+            url:"(@_WebRequestUrl_@)",
+            data: data,
+            success: function (data) {
+            gettext = data;
+            }
+        });
+        return gettext;
+        }
+    </script>
+<body>
+ 
+<style>
+.container {
+  height: 700px;
+  width:100%;
+  margin-left:-19px;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+</style>
+    <div id="wrapper">
+      {@#code+=nav}
+        <script>
+            SelectNav("模板管理");
+        </script>
+       <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                    Template Management <small>Be Careful to Modify The System Template (Format is Admin_) </small>
+                </h1>
+            </div>
+            <div id="page-inner">
+   
+   
+  
+<div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-heading">
+TemplateList
+</div>
+<div class="panel-body">
+<div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                               Name
+                                            </th>
+                                            <th>
+                                               Action
+                                            </th>
+                                             <th>
+                                               Type
+                                            </th>
+                                             <th>
+                                               DeFine
+                                            </th>
+                                             <th>
+                                               FilePath
+                                            </th>
+                                             <th>
+                                               HtmlUrl
+                                            </th>
+                                             <th>
+                                               CallCount
+                                            </th>
+                                             <th>
+                                               CodeText
+                                            </th>
+                                            <th>
+                                               Setting
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FileList">
+                                    </tbody>
+                                </table>
+</div>
+</div>
+</div>
+<div class="col-md-12">
+<div class="panel panel-default">
+                        <div class="panel-heading">
+                          OnlineEditingWindow
+                        </div>
+                        <div class="panel-body">
+<div style="width:100%;">
+<div class="form-group input-group" style="margin:20px 0px 20px 0px;">
+<span class="input-group-addon"><i>TemplatePhysicalPath</i></span><input type="text" class="form-control" placeholder="Template physical path"  id="HtmlFileName">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 20px 0px;">
+<span class="input-group-addon"><i>TemplateDeFineHeader</i></span><input type="text" class="form-control" placeholder="TemplateDeFineHeader"  id="HeadCode">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 20px 0px;">
+<span class="input-group-addon"><i>TemplateVirtualPath</i></span><input type="text" class="form-control" placeholder="Template virtual path"  id="CreatPath">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 20px 0px;">
+<span class="input-group-addon"><i>Template Location</i></span><input type="text" class="form-control" placeholder="Template Location"  id="HtmlPath">
+</div>
+  <select id="SelectLanguage">
+            <option>apex</option>
+            <option>azcli</option>
+            <option>bat</option>
+            <option>c</option>
+            <option>clojure</option>
+            <option>coffeescript</option>
+            <option>cpp</option>
+            <option>csharp</option>
+            <option>csp</option>
+            <option>css</option>
+            <option>dockerfile</option>
+            <option>fsharp</option>
+            <option>go</option>
+            <option>graphql</option>
+            <option>handlebars</option>
+            <option>html</option>
+            <option>ini</option>
+            <option>java</option>
+            <option selected>javascript</option>
+            <option>json</option>
+            <option>kotlin</option>
+            <option>less</option>
+            <option>lua</option>
+            <option>markdown</option>
+            <option>msdax</option>
+            <option>mysql</option>
+            <option>objective-c</option>
+            <option>pascal</option>
+            <option>perl</option>
+            <option>pgsql</option>
+            <option>php</option>
+            <option>plaintext</option>
+            <option>postiats</option>
+            <option>powerquery</option>
+            <option>powershell</option>
+            <option>pug</option>
+            <option>python</option>
+            <option>r</option>
+            <option>razor</option>
+            <option>redis</option>
+            <option>redshift</option>
+            <option>ruby</option>
+            <option>rust</option>
+            <option>sb</option>
+            <option>scheme</option>
+            <option>scss</option>
+            <option>shell</option>
+            <option>sol</option>
+            <option>sql</option>
+            <option>st</option>
+            <option>swift</option>
+            <option>tcl</option>
+            <option>typescript</option>
+            <option>vb</option>
+            <option>xml</option>
+            <option>yaml</option>
+</select>
+<button onclick="SelectLanguage(LockerText)">ReLoad</button>
+<button onclick="PrintCode()">Save</button>
+</div>
+<div id="Root"></div>
+</div>
+</div>
+</div>
+</div>
+   {@#code+=footer}
+<script>
+var monacoEditor;
+var LockerText;
+GetHtmlTemplate();
+SelectLanguage("");
+function DelectTemplate(HtmlFileName)
+{
+                var PostMsg = new FormData();
+                PostMsg.append('type', "DelectHtmlTemplate");
+                PostMsg.append('HtmlFileName',document.getElementById("HtmlFileName").value);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    document.getElementById("HtmlFileName").value="";
+                    SetHeadCode="";
+                    document.getElementById("HeadCode").value="";
+                    monacoEditor.setValue("");
+                    GetHtmlTemplate();
+                    }
+                });
+}
+function GetHtmlTemplate()
+{
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetHtmlTemplate",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].HtmlFileName + "</td>";
+                                richtext = richtext + "<td>" + data[i].HtmlAction + "</td>";
+                                richtext = richtext + "<td>" + data[i].LockerType + "</td>";
+                                richtext = richtext + "<td>" +  "<textarea id='" + i + "HeadCode" + "'>"+data[i].HeadCode+"</textarea></td>";
+                                richtext = richtext + "<td>" +"<input value=\""+ data[i].HtmlPath + "\" id='" + i + "HtmlPath" + "'/></td>";
+                                richtext = richtext + "<td>" +"<input value=\""+ data[i].CreatPath + "\" id='" + i + "CreatPath" + "'/></td>";
+                                richtext = richtext + "<td>" + data[i].CallCount + "</td>";
+                                richtext = richtext + "<td>" + "<textarea id='" + i + "CodeText" + "'>"+window.btoa(toUtf8(data[i].CodeText))+"</textarea></td>";
+                                richtext = richtext + "<td>" + "<a  class='btn btn-info' onclick='CreatTemplate("+i+",\""+data[i].HtmlFileName+"\")'>Modify</a><a  class='btn btn-danger' onclick='DelectTemplate(\""+data[i].HtmlFileName+"\")'>Delete</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("FileList").innerHTML = richtext;
+                        }
+                           
+                   }
+});
+}
+var SetHeadCode;
+function CreatTemplate(i,HtmlFileName)
+{
+ document.getElementById("HtmlPath").value=document.getElementById(i+"HtmlPath").value;
+ document.getElementById("CreatPath").value=document.getElementById(i+"CreatPath").value;
+  document.getElementById("HtmlFileName").value=HtmlFileName;
+  document.getElementById("HeadCode").value= document.getElementById(i+"HeadCode").innerHTML;
+  SetHeadCode=document.getElementById(i+"HeadCode").innerHTML;
+  LockerText=document.getElementById(i+"CodeText").innerHTML;
+  monacoEditor.setValue("");
+  SelectLanguage(LockerText);
+}
+function toUtf8(str) {   
+    var out, i, len, c;   
+    out = "";   
+    len = str.length;   
+    for(i = 0; i < len; i++) {   
+        c = str.charCodeAt(i);   
+        if ((c >= 0x0001) && (c <= 0x007F)) {   
+            out += str.charAt(i);   
+        } else if (c > 0x07FF) {   
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));   
+            out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));   
+            out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+        } else {   
+            out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));   
+            out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+        }   
+    }   
+    return out;   
+}
+function CallIde(Code,language)
+{
+require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' } });
+require(['vs/editor/editor.main'], function () {
+    // 初始化变量
+    var fileCounter = 0;
+    var editorArray = [];
+   
+    // 定义编辑器主题
+        monaco.editor.defineTheme('myTheme', {
+        base: 'vs-dark',
+        inherit: true,
+        autoIndent: true,
+        rules: [{ background: '000000' }],
+        // colors: { 'editor.lineHighlightBackground': 'EDF9FA' }
+    });
+    monaco.editor.setTheme('myTheme');
+    // 新建一个编辑器
+    function newEditor(container_id, code, language) {
+        var model = monaco.editor.createModel(code, language);
+        var editor = monaco.editor.create(document.getElementById(container_id), {
+            model: model,
+            fontFamily: "Arial",
+            fontSize: 18
+        });
+        editorArray.push(editor);
+        return editor;
+    }
+    // 新建一个 div
+    function addNewEditor(Code, language) {
+        var new_container = document.createElement("DIV");
+        new_container.id = "container-" + fileCounter.toString(10);
+        new_container.className = "container";
+        document.getElementById("Root").appendChild(new_container);
+        monacoEditor=newEditor(new_container.id, Code, language);
+        fileCounter += 1;
+    }
+    addNewEditor(Code, language);
+});
+window.scrollTo(0, document.body.scrollHeight);
+}
+function PrintCode()
+{
+  var PostMsg = new FormData();
+                PostMsg.append('type', "SaveHtmlTemplate");
+                PostMsg.append('EncryptData', window.btoa(toUtf8(monacoEditor.getValue())));
+                PostMsg.append('HtmlFileName',document.getElementById("HtmlFileName").value);
+                PostMsg.append('HeadCode',window.btoa(toUtf8(SetHeadCode)));
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    GetHtmlTemplate();
+                    }
+                });
+}
+function SelectLanguage(ENCode)
+{
+   
+    var PostMsg = new FormData();
+                PostMsg.append('type', "TryConvert");
+                PostMsg.append('EncryptData', ENCode);
+              
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    document.getElementById("Root").innerHTML="";
+                    CallIde(data,$("#SelectLanguage option:selected").text());
+                    }
+                });
+}
+</script>
+</body>
+</html>

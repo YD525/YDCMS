@@ -1,0 +1,98 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+    <style>
+        .chart {
+            height:500px;
+        }
+    </style>
+<body>
+    <div id="wrapper">
+        {@#code+=nav}
+      <script>
+     SelectNav("引擎管理");
+     </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                  EngineManagement<small>ControlAndSetTheEngine</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+ControlEngineProcessingRange
+</div>
+<div class="panel-body">
+ <div class="form-group">
+                <label class="checkbox-inline">
+                    <input type="checkbox"  id="check1" checked="true">UpdateFront-EndStyle
+                </label>
+               <label class="checkbox-inline">
+                    <input type="checkbox"  id="check2" >UpdateBackendStyle
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox"  id="check3">DeleteJunkFiles
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox"  id="check4" checked="true">RefreshCache
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox"  id="check5" >RefreshDatabase
+                </label>
+                
+ </div>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+ControlEngineWorkingStatus
+</div>
+<div class="panel-body">
+<a  class="btn btn-success" onclick="CallEngine()">StartOperation</a>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+MessagesReturned&nbsp;in&nbsp;RealTime
+</div>
+<div class="panel-body">
+<textarea id="NMessage" style="height:500px;width:100%;"></textarea>
+</div>
+</div>
+</div>
+     
+    <!-- /. ROW  -->
+ {@#code+=footer}
+ <script>
+function CallEngine()
+{
+var myDate = new Date();
+document.getElementById("NMessage").innerHTML="Call Engine "+myDate.toLocaleString()+"\r\n";
+ var Front=document.getElementById("check1").checked;
+ var After=document.getElementById("check2").checked;
+ var ReloadArticle=document.getElementById("check3").checked;
+ var RefreshCache=document.getElementById("check4").checked;
+ var RefreshDB=document.getElementById("check5").checked;
+  $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=ShellEngine&Front="+Front+"&After="+After+"&ReloadArticle="+ReloadArticle+"&RefreshCache="+RefreshCache+"&RefreshDB="+ RefreshDB,
+                    success: function (data)
+                    {
+                    document.getElementById("NMessage").innerHTML+= data;
+                    }
+});
+}
+</script>
+</body>
+</html>

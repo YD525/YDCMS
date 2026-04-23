@@ -1,0 +1,572 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+
+
+<body>
+    <style>
+        .chart {
+            height: 500px;
+        }
+    </style>
+
+    <div id="wrapper">
+        {@#code+=nav}
+        <script>
+            SelectNav("栏目管理");
+        </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                    栏目管理 <small>查看和修改栏目</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+
+
+
+                <div class="col-md-12">
+                    <!--    Context Classes  -->
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            可用的模板文件
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>模板文件名称</th>
+                                            <th>模板调用名称</th>
+                                            <th>模板类型</th>
+                                            <th>静态部署路径</th>
+                                            <th>模板隶属类别</th>
+                                            <th>样式文件路径</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="AllHtmlTemplate">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  end  Context Classes  -->
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            新建栏目
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div class="form-group input-group"><span class="input-group-addon"><i>栏目名称</i></span><input type="text" class="form-control" id="LockerColumnName"></div>
+                            <div style="float:right">
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="SelectColumnType">栏目类别<span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a onclick="SetValue('DefNav')">1级栏目</a></li>
+                                        <li><a onclick="SetValue('Lv2Nav')">2级栏目</a></li>
+                                        <li><a onclick="SetValue('ListT')">队列(string)</a></li>
+                                        <li class="divider"></li>
+                                        <li><a onclick="SetValue('ListTT')">队列(string,string)</a></li>
+                                    </ul>
+                                </div>
+
+                                <a class="btn btn-success" onclick="AddNavColumn()">确认</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-md-12 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            1级栏目
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-pills" ID="AllDefNav">
+                            </ul>
+
+                            <div class="tab-content" id="DefNavBody">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <!--    Context Classes  -->
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            2级导航
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>子名称</th>
+                                            <th>子指向</th>
+                                            <th>子SEO</th>
+                                            <th>子顺序</th>
+                                            <th>关联文章模板</th>
+                                            <th>子类型</th>
+                                            <th>父级</th>
+                                            <th>管理</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Lv2List">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  end  Context Classes  -->
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            特殊栏目
+                        </div>
+
+                        <div class="panel-body" id="AllLine">
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+      
+    
+
+        {@#code+=footer}
+        <script>
+            GetLv1NavList();
+            GetLv2NavList();
+            GetAllList();
+            GetActiveHtmlTemplate();
+            var SelectColumnType = "DefNav";
+
+            function SetValue(Value) {
+                SelectColumnType = Value;
+                document.getElementById("SelectColumnType").innerHTML = Value + "<span class='caret'></span>";
+            }
+
+            function AddNavColumn() {
+                var PostMsg = new FormData();
+                PostMsg.append('type', "AddNavColumn");
+                PostMsg.append('ColumnName', document.getElementById("LockerColumnName").value);
+                PostMsg.append('NColumnType', SelectColumnType);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        GetLv1NavList();
+                        GetLv2NavList();
+                        GetAllList();
+                    }
+                });
+            }
+
+            function GetLv1NavList() {
+                document.getElementById("AllDefNav").innerHTML = "";
+                document.getElementById("DefNavBody").innerHTML = "";
+                $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetNavListByType&ColumnType=DefNav",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = "";
+                                richtext = richtext + "<li class=''>";
+                                richtext = richtext + "<a href='#" + data[i].ID + "-pills' data-toggle='tab' aria-expanded='false'>" + data[i].ColumnName + "</a>";
+                                richtext = richtext + "</li>";
+                                document.getElementById("AllDefNav").innerHTML += richtext;
+                                richtext = "";
+                                richtext = richtext + "<div class='tab-pane fade' id='" + data[i].ID + "-pills'>";
+                                richtext = richtext + "<div style='Height:30px;Width:auto;'></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='badge'>栏目ID:" + data[i].ID + "</span></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='input-group-addon'><i>栏目名称</i></span>";
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='默认导航显示的名称' value='" + data[i].ColumnName + "' id='" + data[i].ID + "ColumnName" + "'></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='input-group-addon'><i>栏目指向(链接/或调用名称)</i></span>";
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='指向的模板路径' value='" + data[i].ColumnHref + "' id='" + data[i].ID + "ColumnHref" + "'></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='input-group-addon'><i>SEO优化</i></span>";
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='SEO字段' value='" + data[i].SeoText + "' id='" + data[i].ID + "SeoText" + "'></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='input-group-addon'><i>排序优先级</i></span>";
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='越小越靠前' value='" + data[i].ColumnOrder + "'  id='" + data[i].ID + "ColumnOrder" + "'></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='input-group-addon'><i>关联文章模板</i></span>";
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='生成文章所用的模板' value='" + data[i].LockerTemplate + "'  id='" + data[i].ID + "LockerTemplate" + "'></div>";
+
+                                richtext = richtext + "<div class='form-group input-group'>";
+                                richtext = richtext + "<span class='input-group-addon'><i>栏目类别</i></span>";
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='默认的栏目类别' value='" + data[i].ColumnType + "'  id='" + data[i].ID + "ColumnType" + "'></div>";
+
+                                richtext = richtext + "<div style='float:right;'>";
+                                richtext = richtext + "<a  class='btn btn-info' onclick='ReloadColumn(" + data[i].ID + ",\"DefNav\")'>修改</a>";
+                                richtext = richtext + "&nbsp&nbsp&nbsp";
+                                richtext = richtext + "<a  class='btn btn-danger' onclick='DelectColumn(" + data[i].ID + ")'>删除</a>";
+                                richtext = richtext + "</div>";
+
+                                richtext = richtext + "</div>";
+                                document.getElementById("DefNavBody").innerHTML += richtext;
+
+                            }
+                        }
+                    }
+                });
+            }
+            function GetLv2NavList() {
+                document.getElementById("Lv2List").innerHTML = "";
+                $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetNavListByType&ColumnType=Lv2Nav",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr class='success'>";
+                                richtext = richtext + "<td>" + data[i].ID + "</td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].ColumnName + "' id='" + data[i].ID + "ColumnName" + "'/></td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].ColumnHref + "' id='" + data[i].ID + "ColumnHref" + "'/></td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].SeoText + "' id='" + data[i].ID + "SeoText" + "'/></td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].ColumnOrder + "' id='" + data[i].ID + "ColumnOrder" + "'/></td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].LockerTemplate + "' id='" + data[i].ID + "LockerTemplate" + "'/></td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].ColumnType + "' id='" + data[i].ID + "ColumnType" + "'/></td>";
+                                richtext = richtext + "<td>" + "<input type='text' value='" + data[i].Parent + "' id='" + data[i].ID + "Parent" + "'/></td>";
+                                richtext = richtext + "<td><a  class='btn btn-info' onclick='ReloadColumn(" + data[i].ID + ",\"Lv2Nav\")'>修改</a><a  class='btn btn-danger' onclick='DelectColumn(" + data[i].ID + ")'>删除</a></td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("Lv2List").innerHTML = richtext;
+                        }
+                    }
+                });
+            }
+
+            function GetActiveHtmlTemplate() {
+                $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetActiveHtmlTemplate",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].HtmlFileName + "</td>";
+                                richtext = richtext + "<td>" + data[i].HtmlAction + "</td>";
+                                richtext = richtext + "<td>" + data[i].TemplateType + "</td>";
+                                richtext = richtext + "<td>" + data[i].HtmlPath + "</td>";
+                                richtext = richtext + "<td>" + data[i].HtmlShowType + "</td>";
+                                richtext = richtext + "<td>" + data[i].StylePath + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("AllHtmlTemplate").innerHTML = richtext;
+                        }
+
+                    }
+                });
+            }
+
+            function DelectColumn(ID) {
+                CallAjax("Type=DelectNavColumn&ID=" + ID, "Get");
+                GetLv1NavList();
+                GetLv2NavList();
+                GetAllList();
+            }
+
+            function ReloadColumn(ID, ColumnType) {
+                var ColumnName = document.getElementById(ID + "ColumnName").value;
+                var ColumnHref = document.getElementById(ID + "ColumnHref").value;
+                var SeoText = document.getElementById(ID + "SeoText").value;
+                var ColumnOrder = document.getElementById(ID + "ColumnOrder").value;
+                var LockerTemplate = document.getElementById(ID + "LockerTemplate").value;
+                var NColumnType = document.getElementById(ID + "ColumnType").value;
+                var Parent = "";
+                if (ColumnType == "DefNav") { } else { Parent = document.getElementById(ID + "Parent").value; }
+                var PostMsg = new FormData();
+                PostMsg.append('type', "ReloadNavColumn");
+                PostMsg.append('ID', ID);
+                PostMsg.append('ColumnName', ColumnName);
+                PostMsg.append('ColumnHref', ColumnHref);
+                PostMsg.append('SeoText', SeoText);
+                PostMsg.append('ColumnOrder', ColumnOrder);
+                PostMsg.append('LockerTemplate', LockerTemplate);
+                PostMsg.append('NColumnType', NColumnType);
+                PostMsg.append('Parent', Parent);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        GetLv1NavList();
+                        GetLv2NavList();
+                        GetAllList();
+                    }
+                });
+            }
+
+            function AddLineT(ID) {
+                CallAjax("Type=AddLineT&ID=" + ID, "Get");
+                GetAllList();
+            }
+
+            function AddLineTT(ID) {
+                CallAjax("Type=AddLineTT&ID=" + ID, "Get");
+                GetAllList();
+            }
+
+           function ReloadListT(ID) {
+                CallAjax("Type=ReloadListT&ID=" + ID+"&Parent="+ document.getElementById(ID + "Parent").value+"&SeoText="+document.getElementById(ID + "SeoText").value, "Get");
+                GetAllList();
+            }
+
+            function ReloadListTT(ID) {
+               CallAjax("Type=ReloadListTT&ID=" + ID+"&Parent="+ document.getElementById(ID + "Parent").value+"&SeoText="+document.getElementById(ID + "SeoText").value, "Get");
+                GetAllList();
+            }
+
+            function ReloadLineT(ID, Rowid) {
+                var PostMsg = new FormData();
+                PostMsg.append('type', "ReloadLineT");
+                PostMsg.append('ID', ID);
+                PostMsg.append('LockerRows', Rowid);
+                PostMsg.append('NewText', document.getElementById(ID + "A" + Rowid + "A" + "AllValue").value + ">" + document.getElementById(ID + "A" + Rowid + "A" + "AllHref").value);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        GetAllList();
+                    }
+                });
+               
+            
+            }
+
+            function ReloadLineTT(ID, Rowid) {
+                var PostMsg = new FormData();
+                PostMsg.append('type', "ReloadLineTT");
+                PostMsg.append('ID', ID);
+                PostMsg.append('LockerRows', Rowid);
+                PostMsg.append('NewText', document.getElementById(ID + "A" + Rowid + "A" + "AllKey").value + ">" + document.getElementById(ID + "A" + Rowid + "A" + "AllValue").value + " > " + document.getElementById(ID + "A" + Rowid + "A" + "AllHref").value);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        GetAllList();
+                    }
+                });
+
+            
+            }
+            function DelectLineT(ID, Rowid) {
+                CallAjax("Type=DelectLineT&ID=" + ID + "&LockerRows=" + Rowid, "Get");
+                GetAllList();
+            }
+            function DelectLineTT(ID, Rowid) {
+                CallAjax("Type=DelectLineTT&ID=" + ID + "&LockerRows=" + Rowid, "Get");
+                GetAllList();
+            }
+
+            function GetAllList() {
+                document.getElementById("AllLine").innerHTML = "";
+                GetListT();
+                GetListTT();
+            }
+            function GetListT() {
+                $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetNavListByType&ColumnType=ListT",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+
+                                richtext = richtext + "<div class='panel panel-default'>";
+                                richtext = richtext + "<div class='panel-heading'>";
+                                richtext = richtext + "<h4 class='panel-title'>";
+                                richtext = richtext + "<a data-toggle='collapse' data-parent='#accordion' href='#" + data[i].ID + "' aria-expanded='true' class='collapsed'>" + data[i].Parent + "&nbsp;&nbsp;<a  class='btn btn-danger' onclick='DelectColumn(" + data[i].ID + ")'>删除</a>&nbsp;&nbsp;<a  class='btn btn-info' onclick='ReloadListT(" + data[i].ID + ")'>修改</a>" + "</a></h4>";
+                                richtext = richtext + "</div>";
+                                richtext = richtext + "<div id='" + data[i].ID + "' class='panel-collapse collapse in' style='' aria-expanded='true'>";
+                                richtext = richtext + "<div class='panel-body'>";
+                                richtext = richtext + "<table class='table'>";
+                                richtext = richtext + "<thead>";
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<th>RowID</th>";
+                                richtext = richtext + "<th>Value</th>";
+                                richtext = richtext + "<th>Src</th>";
+                                richtext = richtext + "<th>Setting</th>";
+                                richtext = richtext + "</tr>";
+                                richtext = richtext + "</thead>";
+                                richtext = richtext + "<tbody>";
+                                for (ir = 0; ir < data[i].AllValue.length; ir++) {
+                                    richtext = richtext + "<tr>";
+                                    richtext = richtext + "<td>" + ir + "</td>";
+                                    richtext = richtext + "<td>" + "<input type='text' value='" + data[i].AllValue[ir] + "' id='" + data[i].ID + "A" + ir + "A" + "AllValue" + "'/>" + "</td >";
+                                    richtext = richtext + "<td>" + "<input type='text' value='" + data[i].AllHref[ir] + "' id='" + data[i].ID + "A" + ir + "A" + "AllHref" + "'/>" + "</td>";
+                                    richtext = richtext + "<td><a  class='btn btn-info' onclick='ReloadLineT(" + data[i].ID + "," + ir + ")'>修改</a><a  class='btn btn-danger' onclick='DelectLineT(" + data[i].ID + "," + ir + ")'>删除</a></td>";
+                                    richtext = richtext + "</tr>";
+                                }
+
+                                richtext = richtext + "</tbody>";
+                                richtext = richtext + "</table>";
+                                richtext = richtext + "<a class='btn btn-success' onclick='AddLineT(" + data[i].ID + ")'>新建</a>"
+
+                                richtext = richtext + "<div class='form-group input-group' style='margin:20px 0px 0px 0px;'>"
+                                richtext = richtext + "<span class='input-group-addon'><i>栏目名称</i></span>"
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='唯一标识符' value='" + data[i].Parent + "' id='"+data[i].ID+"Parent'>"
+                                richtext = richtext + "</div>"
+
+                                richtext = richtext + "<div class='form-group input-group' style='margin:20px 0px 0px 0px;'>"
+                                richtext = richtext + "<span class='input-group-addon'><i>SEO优化</i></span>"
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='SEO字段' value='" + data[i].SeoText + "' id='"+data[i].ID+"SeoText'>"
+                                richtext = richtext + "</div>"
+
+                                richtext = richtext + "<div class='form-group input-group' style='margin:20px 0px 0px 0px;'>"
+                                richtext = richtext + "<span class='input-group-addon'><i>默认结构体</i></span>"
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='默认结构体' value='" + data[i].DefCode + "' id='"+data[i].ID+"DefCode'>"
+                                richtext = richtext + "</div>"
+
+                                richtext = richtext + "</div>";
+                                richtext = richtext + "</div>";
+                                richtext = richtext + "</div>";
+                            }
+                            document.getElementById("AllLine").innerHTML += richtext;
+                        }
+                    }
+                });
+
+            }
+            function GetListTT() {
+                $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetNavListByType&ColumnType=ListTT",
+                    success: function (data) {
+                        if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+
+                                richtext = richtext + "<div class='panel panel-default'>";
+                                richtext = richtext + "<div class='panel-heading'>";
+                                richtext = richtext + "<h4 class='panel-title'>";
+                                richtext = richtext + "<a data-toggle='collapse' data-parent='#accordion' href='#" + data[i].ID + "' aria-expanded='true' class='collapsed'>" + data[i].Parent + "&nbsp;&nbsp;<a  class='btn btn-danger' onclick='DelectColumn(" + data[i].ID + ")'>删除</a>&nbsp;&nbsp;<a  class='btn btn-info' onclick='ReloadListTT(" + data[i].ID + ")'>修改</a>" + "</a></h4>";
+                                richtext = richtext + "</div>";
+                                richtext = richtext + "<div id='" + data[i].ID + "' class='panel-collapse collapse in' style='' aria-expanded='true'>";
+                                richtext = richtext + "<div class='panel-body'>";
+                                richtext = richtext + "<table class='table'>";
+                                richtext = richtext + "<thead>";
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<th>RowID</th>";
+                                richtext = richtext + "<th>Key</th>";
+                                richtext = richtext + "<th>Value</th>";
+                                richtext = richtext + "<th>Src</th>";
+                                richtext = richtext + "<th>Setting</th>";
+                                richtext = richtext + "</tr>";
+                                richtext = richtext + "</thead>";
+                                richtext = richtext + "<tbody>";
+                                for (ir = 0; ir < data[i].AllValue.length; ir++) {
+                                    richtext = richtext + "<tr>";
+                                    richtext = richtext + "<td>" + ir + "</td>";
+                                    richtext = richtext + "<td>" + "<input type='text' value='" + data[i].AllValue[ir].Key + "' id='" + data[i].ID + "A" + ir + "A" + "AllKey" + "'/>" + "</td >";
+                                    richtext = richtext + "<td>" + "<input type='text' value='" + data[i].AllValue[ir].Value + "' id='" + data[i].ID + "A" + ir + "A" + "AllValue" + "'/>" + "</td >";
+                                    richtext = richtext + "<td>" + "<input type='text' value='" + data[i].AllHref[ir] + "' id='" + data[i].ID + "A" + ir + "A" + "AllHref" + "'/>" + "</td>";
+                                    richtext = richtext + "<td><a  class='btn btn-info' onclick='ReloadLineTT(" + data[i].ID + "," + ir + ")'>修改</a><a  class='btn btn-danger' onclick='DelectLineTT(" + data[i].ID + "," + ir + ")'>删除</a></td>";
+                                    richtext = richtext + "</tr>";
+                                }
+
+                                richtext = richtext + "</tbody>";
+                                richtext = richtext + "</table>";
+                                richtext = richtext + "<a class='btn btn-success' onclick='AddLineTT(" + data[i].ID + ")'>新建</a>"
+
+                                richtext = richtext + "<div class='form-group input-group' style='margin:20px 0px 0px 0px;'>"
+                                richtext = richtext + "<span class='input-group-addon'><i>栏目名称</i></span>"
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='唯一标识符' value='" + data[i].Parent + "' id='"+data[i].ID+"Parent'>"
+                                richtext = richtext + "</div>"
+
+                                richtext = richtext + "<div class='form-group input-group' style='margin:20px 0px 0px 0px;'>"
+                                richtext = richtext + "<span class='input-group-addon'><i>SEO优化</i></span>"
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='SEO字段' value='" + data[i].SeoText + "' id='"+data[i].ID+"SeoText'>"
+                                richtext = richtext + "</div>"
+
+                                richtext = richtext + "<div class='form-group input-group' style='margin:20px 0px 0px 0px;'>"
+                                richtext = richtext + "<span class='input-group-addon'><i>默认结构体</i></span>"
+                                richtext = richtext + "<input type='text' class='form-control' placeholder='默认结构体' value='" + data[i].DefCode + "' id='"+data[i].ID+"DefCode'>"
+                                richtext = richtext + "</div>"
+
+                                richtext = richtext + "</div>";
+                                richtext = richtext + "</div>";
+                                richtext = richtext + "</div>";
+                            }
+                            document.getElementById("AllLine").innerHTML += richtext;
+                        }
+                    }
+                });
+
+
+            }
+        </script>
+</body>
+
+</html>

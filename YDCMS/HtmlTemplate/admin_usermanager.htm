@@ -1,0 +1,150 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+<body>
+    <style>
+        .chart {
+            height: 500px;
+        }
+    </style>
+    <div id="wrapper">
+        {@#code+=nav}
+        <script>
+            SelectNav("用户管理");
+        </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                    UserManagement <small>ViewAndDeleteUsers</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+User data management
+</div>
+<div class="panel-body">
+<div class="table-responsive"> 
+<table class="table">
+				<thead>
+					<tr>
+						<th>
+							ID
+						</th>
+						<th>
+							UserID
+						</th>
+						<th>
+							Password
+						</th>
+						<th>
+							Name
+						</th>
+                        <th>
+							Sex
+						</th>
+                       <th>
+							Type
+						</th>
+                        <th>
+							Email
+						</th>
+                        <th>
+							Phone
+						</th>
+                         <th>
+						    Birthday
+						</th>
+                        <th>
+						    PicPath
+						</th>
+                       <th>
+						  IPAddress
+						</th>
+                        <th>
+						  Subclass
+						</th>
+					</tr>
+				</thead>
+				<tbody id="UScenter">
+			
+				</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+User authority management
+</div>
+<div class="panel-body">
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ID</i></span><input type="text" class="form-control" placeholder="ID"  id="CurrentID"/>
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;float:right;">
+<a class="btn btn-danger" onclick="DelectUser()">DeleteUser</a>
+</div>
+</div>
+</div>
+</div>
+           
+ {@#code+=footer}
+<script>
+GetUserCenter();
+function GetUserCenter()
+{
+document.getElementById("UScenter").innerHTML ="";
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=UScenter",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].ID + "</td>";
+                                richtext = richtext + "<td>" + data[i].userid + "</td>";
+                                richtext = richtext + "<td>" + data[i].userpassword  + "</td>";
+                                richtext = richtext + "<td>" + data[i].username + "</td>";
+                                richtext = richtext + "<td>" + data[i].usersex + "</td>";
+                                richtext = richtext + "<td>" + data[i].usertype  + "</td>";
+                                richtext = richtext + "<td>" + data[i].useremail  + "</td>";
+                                richtext = richtext + "<td>" + data[i].userphone  + "</td>";
+                                richtext = richtext + "<td>" + data[i].userbirthday  + "</td>";
+                                richtext = richtext + "<td>" + data[i].userpicpath  + "</td>";
+                                richtext = richtext + "<td>" + data[i].userfristfromaddress  + "</td>";
+                                richtext = richtext + "<td>" + data[i].Subclass  + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("UScenter").innerHTML = richtext;
+                        }
+                           
+                   }
+});
+} 
+function DelectUser()
+{
+    var ID=document.getElementById("CurrentID").value;
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=DelectUser&ID="+ID,
+                    success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                    }
+    });
+}
+</script>
+</body>
+</html>

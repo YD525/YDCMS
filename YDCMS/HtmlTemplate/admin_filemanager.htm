@@ -1,0 +1,298 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSJ Southampton</title>
+    <link href="(@_AutoFindCssPath_@)assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="(@_AutoFindCssPath_@)assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="(@_AutoFindCssPath_@)assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="(@_SystemSetting:DEFURL_@)lib/style.css" rel="stylesheet" />
+    <link href="(@_SystemSetting:DEFURL_@)lib/webuploader.css" rel="stylesheet" />
+   <script src="(@_SystemSetting:DEFURL_@)Scripts/jquery-3.4.1.js"></script>
+</head>
+<body>
+   <div id="wrapper">
+        {@#code+=nav}
+        <script>
+            SelectNav("文件管理");
+        </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                   FileManagement <small>UploadAndRecallFiles</small>
+                </h1>
+            </div>
+    <div id="page-inner">
+  <div class="col-md-12">   
+  <div class="panel panel-default">
+<div class="panel-heading">
+  FileUploadBox
+  </div>
+ <div class="form-group">
+   <div id="container" style="background:white;">
+            <!--头部，相册选择和格式选择-->
+            <div id="uploader">
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <div id="filePicker"></div>
+                        <p>DragFilesUpTo300CanBeSelectedAt&nbsp;a&nbsp;time</p>
+                    </div>
+                </div>
+                <div class="statusBar" style="display:none;">
+                    <div class="progress">
+                        <span class="text">0%</span>
+                        <span class="percentage"></span>
+                    </div>
+                    <div class="info"></div>
+                    <div class="btns">
+                        <div id="filePicker2"></div><div class="uploadBtn">StartUpload</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+                
+ </div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+ProtectedFileSpace
+</div>
+<div class="panel-body">
+ <div class="form-group">
+ 
+        <div class="panel-body">
+                     <div class="table-responsive">    
+                      <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>FileName</th>
+                                            <th>Uploader</th>
+                                            <th>CallName</th>
+                                            <th>Size</th>
+                                            <th>AutoFormat</th>
+                                            <th>AccessPermission</th>
+                                            <th>Anti-Leech</th>
+                                            <th>Options</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="FileList">
+                                    </tbody>
+                                </table>
+                    </div>
+                     </div>
+ </div>
+                
+ </div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+FilePreviewBox
+</div>
+<div class="panel-body">
+ <div class="form-group">
+ 
+  <div id="AutoShowFile" style="margin:0 auto; width:500px;">
+ </div>
+                
+ </div>
+</div>
+</div>
+</div>
+           
+ {@#code+=footer}
+<script>
+ GetFileList();
+function GetFileList()
+{
+    document.getElementById("FileList").innerHTML = "";
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetAllFileList",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].ID+ "</td>";
+                                richtext = richtext + "<td>" + data[i].DefFileName + "</td>";
+                                richtext = richtext + "<td>" + data[i].UPLoadByUser + "</td>";
+                                richtext = richtext + "<td>" + data[i].FileAction + "</td>";
+                                richtext = richtext + "<td>" + data[i].FileSize + "</td>";
+                                richtext = richtext + "<td>" + data[i].FileType + "</td>";
+                                richtext = richtext + "<td>" +"<input value=\""+ data[i].FileAuthority + "\" id='" + data[i].ID + "FileAuthority" + "'/></td>";
+                                richtext = richtext + "<td>" +"<input value=\""+ data[i].AntiTheftChain + "\" id='" + data[i].ID + "AntiTheftChain" + "'/></td>";
+                                richtext = richtext + "<td>" + "<a  class='btn btn-info' onclick='ShowFile(\""+data[i].FileAction +"\",\""+data[i].FileType +"\")'>预览文件</a>" + "<a  class='btn btn-success' onclick='ReloadFile(\""+ data[i].ID+"\")'>修改权限</a><a  class='btn btn-danger' onclick='DelectFile(\""+ data[i].ID+"\")'>删除文件</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("FileList").innerHTML = richtext;
+                        }
+                           
+                   }
+});
+}
+function ShowFile(FileAction,FileType)
+{
+    document.getElementById("AutoShowFile").innerHTML="";
+    if(FileType=="ImageType")
+    {
+    document.getElementById("AutoShowFile").innerHTML="<img src='"+"(@_SystemSetting:DEFURL_@)Web/FileStream?act="+FileAction+"' style='width:100%'/>";
+    }
+    else
+    if(FileType=="FileType")
+    {
+    window.open("(@_SystemSetting:DEFURL_@)Web/FileStream?act="+FileAction);
+    }
+    else
+    if(FileType=="VideoType")
+    {
+   document.getElementById("AutoShowFile").innerHTML="<video oncontextmenu='return false;' src='"+"(@_SystemSetting:DEFURL_@)Web/FileStream?act="+FileAction+"'  controls='controls' style='width:100%'></video>";
+    }
+    else
+    {
+        window.open("(@_SystemSetting:DEFURL_@)Web/FileStream?act="+FileAction);
+    }
+}
+function ReloadFile(ID)
+{
+                var PostMsg = new FormData();
+                PostMsg.append('type', "SetFileItemValue");
+                PostMsg.append('FileAuthority',document.getElementById(ID+"FileAuthority").value);
+                PostMsg.append('AntiTheftChain',document.getElementById(ID+"AntiTheftChain").value);
+                PostMsg.append('ID',ID);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    GetFileList();
+                    }
+                });
+}
+function DelectFile(ID)
+{
+                 var PostMsg = new FormData();
+                PostMsg.append('type', "DelectFileItem");
+                PostMsg.append('ID',ID);
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    GetFileList();
+                    }
+                });
+}
+</script>
+     
+   <script src="(@_SystemSetting:DEFURL_@)/lib/jquery.js" type="text/javascript"></script>
+    <script src="(@_SystemSetting:DEFURL_@)/lib/webuploader-v0.1.6.js"></script>
+    <!--[if IE]>
+    <script type="text/javascript">
+        if (!window.console || !console.firebug) {
+            var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+            window.console = {};
+            for (var i = 0; i < names.length; ++i)
+                window.console[names[i]] = function () { }
+        }
+    </script>
+    <script src="https://cdn.bootcss.com/json2/20160511/json2.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        window.Global = window.Global || {};
+        Global.FileQueueds = [];
+        Global.GetFileQueued = function (id) {
+            var res = [];
+            $.each(Global.FileQueueds, function (idx, row) {
+                if (row.id == id) {
+                    res = row;
+                }
+            })
+            return res;
+        };
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            var _chunk = 0;
+            WebUploader.Uploader.register({
+                "before-send-file": "beforeSendFile",
+                "before-send": "beforeSend",
+                "after-send-file": "afterSendFile"
+            }, {
+                beforeSendFile: function (file) {
+                    console.info('beforeSendFile', Global.FileQueueds, file);
+                    $.each(Global.FileQueueds, function (idx, row) {
+                        if (row.id == file.id) {
+                            _chunk = row.chunk;
+                        }
+                    });
+                    //_chunk = Global.FileQueueds.find(f=>f.id == file.id).chunk;
+                },
+                beforeSend: function (block) {
+                    var blob = block.blob.getSource(),
+                        deferred = $.Deferred();
+                    console.info('blob', block);
+                    //根据md5与服务端匹配，如果重复，则跳过。
+                    if (block.chunk < _chunk) {
+                        deferred.reject();
+                    }
+                    else {
+                        deferred.resolve();
+                    }
+                    return deferred.promise();
+                },
+                afterSendFile: function (file) {
+                }
+            });
+        });
+    </script>
+    <script src="(@_SystemSetting:DEFURL_@)/lib/upload.js?v=1.12" type="text/javascript"></script>
+    <script type="text/javascript">
+        //这是上传文件成功后(文件已合并)的回调事件
+        function UploadSuccessCallback(file, md5) {
+            console.info('UploadSuccessCallback', file);
+            var data = {
+                Name: file.name,
+                Size: file.size,
+                Extension: file.ext
+            };
+            var jsonData = JSON.stringify(data);
+            console.info('提交文件', jsonData);
+            $.ajax({
+                url: '/FileUpload/AddUploadRecord',
+                type: 'post',
+                data: { data: jsonData, md5: md5 },
+                dataType: 'json',
+                success: function (data) {
+                    console.info(data);
+                    if (data.code < 0) {
+                        alert(data.errmsg);
+                    }
+                    else {
+                        $('.pop-window0 .pop-close').click();
+                        location.reload();
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

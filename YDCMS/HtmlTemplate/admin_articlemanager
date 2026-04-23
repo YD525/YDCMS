@@ -1,0 +1,615 @@
+@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+
+
+<body>
+    <style>
+        .chart {
+            height: 500px;
+        }
+    </style>
+
+    <div id="wrapper">
+        {@#code+=nav}
+        <script>
+            SelectNav("文章管理");
+        </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                    文章管理 <small>修改和添加文章</small>
+                </h1>
+            </div>
+
+            <div id="page-inner">
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                设置展现模式
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-4">
+
+
+                                    <label>
+                                        <select>
+                                            <option>正常关联</option>
+                                            <option>展开全部关联</option>
+                                        </select>
+                                        文章关联模式
+                                    </label>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                选择指定栏目
+                            </div>
+                            <div class="panel-body">
+                                <div class="container-fluid">
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <div class="tabbable" id="tabs-623641">
+                                                <ul class="nav nav-tabs" id="NavList">
+                                                </ul>
+                                                <div class="tab-content" id="NavBody">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                关联文章列表
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                             <th>
+                                                文章创建时间
+                                            </th>
+                                            <th>
+                                                文章缩略图
+                                            </th>
+                                            <th>
+                                                文章名称
+                                            </th>
+                                            <th>
+                                                文章描述
+                                            </th>
+                                            <th>
+                                                文章指向
+                                            </th>
+                                            <th>
+                                                文章类型
+                                            </th>
+                                            <th>
+                                                部署状态
+                                            </th>
+                                            <th>
+                                                管理
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ArticleList">
+                                    </tbody>
+                                </table>
+                                <a class="btn btn-success" onclick="NewArticle()" style="float:right;margin:20px 0px 0px 0px;">新建一篇文章</a>
+                                <div class="col-sm-12">
+                                    <div class="dataTables_info" id="PageInFo">
+                                       
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate" style="float:right;">
+                                        <ul class="pagination" id="AutoPage">
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                文本编辑模块
+                            </div>
+
+
+
+                            <div id="AutoText" style="">
+                                <div class="alert alert-success" style="margin:20px 0px 20px 0px" id="ActCaption">
+		
+		</div>
+
+                                    <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#TypeA" class="" aria-expanded="false">文章主要值字段</a>
+                                        </h4>
+                                    </div>
+                                    <div id="TypeA" class="panel-collapse collapse" style="height: 0px;" aria-expanded="false">
+                                        <div class="panel-body">
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>文章标识名</i></span><input type="text" class="form-control" placeholder="唯一标识符"  id="ProductName">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>文章描述</i></span><input type="text" class="form-control" placeholder="文章的描述"  id="ProductDescribe">
+</div>       
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>文章标题</i></span><input type="text" class="form-control" placeholder="正文的标题"  id="ProductTittle">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>文章简标题</i></span><input type="text" class="form-control" placeholder="正文的简略标题"  id="ProductShortTittle">
+</div>
+
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;width:70%;float:left;">
+<span class="input-group-addon"><i>缩略图&nbsp;&nbsp&nbsp<img src="" id="SelectPic" style="width:50px;height:50px;"/></i></span>
+<input type="text" class="form-control" placeholder="文章的缩略图"  id="AllImageURL" style="margin:15px 0px 0px 10px">
+</div>
+<button class="btn btn-default" style="margin:35px 10px 10px 10px;float:left;" onclick="upImage();">上传新的缩略图</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#TypeB" class="" aria-expanded="false">文章SEO字段</a>
+                                        </h4>
+                                    </div>
+                                    <div id="TypeB" class="panel-collapse collapse" style="height: 0px;" aria-expanded="false">
+                                        <div class="panel-body">
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>SEO描述</i></span><input type="text" class="form-control" placeholder="文章SEO描述"  id="ProductSeoDescribe">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>SEO标题</i></span><input type="text" class="form-control" placeholder="文章SEO标题"  id="ProductSeoTittle">
+</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#TypeC" class="" aria-expanded="false">文章高级字段</a>
+                                        </h4>
+                                    </div>
+                                    <div id="TypeC" class="panel-collapse collapse" style="height: 0px;" aria-expanded="false">
+                                        <div class="panel-body">
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>GetSet字段</i></span><input type="text" class="form-control" placeholder="GetSet字段"  id="GetSet">
+</div>        
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>位于栏目</i></span><input type="text" class="form-control" placeholder="文章所属栏目"  id="ActType">
+</div>                
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <textarea id="RichText" runat="server" type="text/plain" style="width:100%;height:500px;"></textarea>
+                                <a class="btn btn-primary btn-lg" role="button" onclick="SetArticleText()" style="margin:10px 10px 10px 10px;float:right;">保存到文章</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+<script type="text/plain" id="conpicpath"></script>
+                {@#code+=footer}
+<script type="text/javascript">
+var conpicpath;
+var objpicpath;
+function upImage()
+{
+objpicpath = conpicpath.getDialog("insertimage");
+objpicpath.render();
+objpicpath.open();
+
+}
+conpicpath = new UE.ui.Editor();
+conpicpath.render("conpicpath");
+conpicpath.ready(function(){
+conpicpath.setDisabled();
+conpicpath.hide();
+conpicpath.addListener("beforeInsertImage",function(t, arg){
+document.getElementById("AllImageURL").value = arg[0].src;
+document.getElementById("SelectPic").src=arg[0].src;
+});
+});
+</script>
+
+<script>
+
+var CurrentPage=0;
+var CurrentPageCount=0;
+var CurrentColumnType="";
+
+var CurrentProductID=0;
+Ueinitialization();
+GetAllArticleColumn();
+function Ueinitialization()
+{
+UE.getEditor("RichText", {initialFrameWidth: "100%"});
+}
+
+
+function GetAllArticleColumn()
+{
+   document.getElementById("NavBody").innerHTML = "";
+   document.getElementById("NavList").innerHTML = "";
+  $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetAllArticleColumn",
+                    success: function (data) {
+                       if(data.ArticleColumnList.length>0)
+                       {
+                        var richtext="";
+                        for(i=0;i<data.ArticleColumnList.length;i++)
+                        {
+                        richtext=richtext+"<li><a href='#"+data.ArticleColumnList[i].ID+"' data-toggle='tab'  onclick='SetArticleType(\""+data.ArticleColumnList[i].ColumnName+"\")'>"+data.ArticleColumnList[i].ColumnName+"</a></li>";
+                        document.getElementById("NavList").innerHTML += richtext;
+                        richtext="";
+                        richtext=richtext+"<div class='tab-pane' id='"+data.ArticleColumnList[i].ID+"'>";
+                        if( data.ArticleColumnList[i].ParentColumn.length>0)
+                        {
+                        richtext = richtext + "<table class='table'>";
+                        richtext = richtext + "<thead>";
+                        richtext = richtext + "<tr>";
+                        richtext = richtext + "<th>ID</th>";
+                        richtext = richtext + "<th>ColumnName</th>";
+                        richtext = richtext + "<th>Setting</th>";
+                        richtext = richtext + "</tr>";
+                        richtext = richtext + "</thead>";
+                        richtext = richtext + "<tbody>";
+                        for (ir = 0; ir < data.ArticleColumnList[i].ParentColumn.length; ir++) {
+                                    richtext = richtext + "<tr>";
+                                    richtext = richtext + "<td>" + data.ArticleColumnList[i].ParentColumn[ir].ID+ "</td >";
+                                    richtext = richtext + "<td>" + data.ArticleColumnList[i].ParentColumn[ir].ColumnName + "</td >";
+                                    richtext = richtext + "<td><a  class='btn btn-info'  onclick='GetArticle(\"" + data.ArticleColumnList[i].ParentColumn[ir].ColumnName +"\",\"1\",\"Desc\")' >展开文章</a></td>";
+                                    richtext = richtext + "</tr>";
+                        }
+                        richtext = richtext + "</tbody>";
+                        richtext = richtext + "</table>";
+                        }
+                       else
+                       {
+                         richtext = richtext + "<a  class='btn btn-info' onclick='GetArticle(\""+data.ArticleColumnList[i].ColumnName+"\",\"1\",\"Desc\")' style='margin:20px 0px 0px 0px'>展开主级文章</a>";
+                       }
+                        richtext = richtext + "</div>";
+                        document.getElementById("NavBody").innerHTML += richtext;
+                        }
+
+
+                       }
+                       richtext="";
+                       if(data.StandColumnList.length>0)
+                       {
+                        richtext=richtext+"<li><a href='#StandTable' data-toggle='tab'>独立栏目</a></li>";
+                        document.getElementById("NavList").innerHTML += richtext;
+                        richtext="";
+                        richtext=richtext+"<div class='tab-pane' id='StandTable'>";
+                        richtext = richtext + "<table class='table'>";
+                        richtext = richtext + "<thead>";
+                        richtext = richtext + "<tr>";
+                        richtext = richtext + "<th>ID</th>";
+                        richtext = richtext + "<th>ColumnName</th>";
+                        richtext = richtext + "<th>Setting</th>";
+                        richtext = richtext + "</tr>";
+                        richtext = richtext + "</thead>";
+                        richtext = richtext + "<tbody>";
+                         for (irr = 0; irr < data.StandColumnList.length; irr++) {
+                                    richtext = richtext + "<tr>";
+                                    richtext = richtext + "<td>" + data.StandColumnList[irr].ID+ "</td >";
+                                    richtext = richtext + "<td>" + data.StandColumnList[irr].ColumnName + "</td >";
+                                    richtext = richtext + "<td><a  class='btn btn-info'   onclick='GetArticle(\""+data.StandColumnList[irr].ColumnName+"\",\"1\",\"Desc\")' >展开文章</a></td>";
+                                    richtext = richtext + "</tr>";
+                        }
+                        richtext = richtext + "</tbody>";
+                        richtext = richtext + "</table>";
+                        richtext = richtext + "</div>";
+                       document.getElementById("NavBody").innerHTML += richtext;
+                       }
+                    }
+                });
+}
+
+function GetArticle(ColumnType,SelectPage,OderBy)
+{
+document.getElementById("ArticleList").innerHTML="";
+CurrentPage=SelectPage;
+CurrentColumnType=ColumnType;
+
+document.getElementById("AutoPage").innerHTML="";
+ $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetArticlePageData&ColumnType="+ColumnType+"&SelectPage="+SelectPage+"&OderBy="+OderBy,
+                    success: function (data) {
+
+                      if (data.PageMessage.length > 0)
+                      {
+                            var richtext = "";
+                            for (i = 0; i < data.PageMessage.length; i++) {
+                                richtext = richtext + "<tr class='info'>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].ProductID + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].Creattime + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" +"<img src='"+data.PageMessage[i].AllImageURL +"' style='width:150px;height:100px;'/>" + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].ProductName + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].ProductDescribe + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].ProductHref + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].Type + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + data.PageMessage[i].Creat + "</td>";
+                                richtext = richtext + "<td style='vertical-align:middle;'>" + "<a  class='btn btn-info' onclick='GetArticleText("+data.PageMessage[i].ProductID+")'>修改</a><a  class='btn btn-danger' onclick=' DelectArticle("+data.PageMessage[i].ProductID+")'>删除</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("ArticleList").innerHTML = richtext;
+                            var MaxCount=0;
+                            CurrentPageCount=data.PageCount;
+                            if(data.PageCount>15)
+                            {
+                            MaxCount=15;
+                            }
+                            else
+                            {
+                            MaxCount=data.PageCount;
+                            }
+                            
+                            var pagemessage="";
+                            pagemessage="<li class='pageprevious'><a onclick='PreviousPage()'>上一页</a></li>";
+                            for (ik=0; ik<MaxCount;ik++)
+                            {
+                            pagemessage =  pagemessage+"<li>"+"<a onclick='QuickGetPage("+(ik+1)+")'>"+(ik+1)+"</a>"+"</li>";
+                            } 
+                            pagemessage=pagemessage+"<li class='pagenext'><a onclick='NextPage()'>下一页</a></li>"
+                            
+                         
+                            document.getElementById("AutoPage").innerHTML =  pagemessage;
+                            document.getElementById("PageInFo").innerHTML ="Page Is:"+CurrentPage+"/"+CurrentPageCount;
+                        }
+                        else
+                        {
+                        document.getElementById("PageInFo").innerHTML ="Page Is Null";
+if(CurrentPage>1)
+{
+var tmppage=CurrentPage-1;
+if(tmppage>0)
+{
+GetArticle(CurrentColumnType,tmppage,"Desc");
+}
+else
+{
+GetArticle(CurrentColumnType,1,"Desc");
+}
+}
+                        }
+
+                    }
+});
+}
+function QuickGetPage(Number)
+{
+CurrentPage=Number;
+GetArticle(CurrentColumnType,CurrentPage,"Desc");
+}
+function PreviousPage()
+{
+if(CurrentPage>1)
+{
+CurrentPage--;
+GetArticle(CurrentColumnType,CurrentPage,"Desc");
+}
+else
+{
+CurrentPage=CurrentPageCount;
+GetArticle(CurrentColumnType,CurrentPage,"Desc");
+}
+
+}
+
+function NextPage()
+{
+
+if(CurrentPage<CurrentPageCount)
+{
+CurrentPage++;
+GetArticle(CurrentColumnType,CurrentPage,"Desc");
+}
+else
+{
+CurrentPage=1;
+GetArticle(CurrentColumnType,CurrentPage,"Desc");
+}
+
+}
+
+function SetArticleText()
+{	
+
+if(CurrentProductID>0)
+{
+SendArticleText(UE.getEditor('RichText').getContent(),CurrentProductID);
+}
+else
+{
+CreatArticle();
+}
+}
+function GetArticleText(ID)
+{
+document.getElementById("ActCaption").innerHTML="当前模式文章修改模式";
+ $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetArticle&ID="+ID,
+                    success: function (data) {
+                    CurrentProductID=ID;
+                    document.getElementById("ProductName").value=data.ProductName;
+                    document.getElementById("ProductDescribe").value=data.ProductDescribe;
+                    document.getElementById("ProductSeoDescribe").value=data.ProductSeoDescribe;
+                    document.getElementById("ProductSeoTittle").value=data.ProductSeoTittle;
+                    document.getElementById("GetSet").value=data.GetSet;
+                    document.getElementById("ProductTittle").value=data.ProductTittle;
+                    document.getElementById("ProductShortTittle").value=data.ProductShortTittle;
+                    document.getElementById("AllImageURL").value=data.AllImageURL;
+                    document.getElementById("ActType").value=data.Type;
+                    document.getElementById("SelectPic").src=data.AllImageURL;
+
+                    UE.getEditor('RichText').setContent(data.ProductText);
+                    window.scrollTo(0, document.body.scrollHeight);
+                    }
+});
+
+
+}
+
+function SendArticleText(Text,LockerID)
+{
+   var TextResult = window.btoa(toUtf8(Text));
+   var PostMsg = new FormData();
+                PostMsg.append('type', "SetArticleText");
+                PostMsg.append('ID', LockerID);
+                PostMsg.append('EncryptData', TextResult);
+                PostMsg.append('ProductName', document.getElementById("ProductName").value);
+                PostMsg.append('ProductDescribe', document.getElementById("ProductDescribe").value);
+                PostMsg.append('ProductSeoDescribe', document.getElementById("ProductSeoDescribe").value);
+                PostMsg.append('ProductSeoTittle', document.getElementById("ProductSeoTittle").value);
+                PostMsg.append('GetSet', document.getElementById("GetSet").value);
+                PostMsg.append('ProductTittle', document.getElementById("ProductTittle").value);
+                PostMsg.append('ProductShortTittle', document.getElementById("ProductShortTittle").value);
+                PostMsg.append('AllImageURL', document.getElementById("AllImageURL").value);
+                PostMsg.append('ActType', document.getElementById("ActType").value);
+
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                   
+                    GetArticle(CurrentColumnType,CurrentPage,"Desc");
+                    alert("已发送到服务端");
+                    document.body.scrollTop=document.documentElement.scrollTop=0;
+                    }
+                });
+
+
+}
+function DelectArticle(ID)
+{
+ CallAjax("Type=DelectArticle&ID=" + ID, "Get");
+ GetArticle(CurrentColumnType,CurrentPage,"Desc");
+}
+function CreatArticle()
+{
+                var TextResult = window.btoa(toUtf8(UE.getEditor('RichText').getContent()));
+                var PostMsg = new FormData();
+                PostMsg.append('type', "CreatArticle");
+                PostMsg.append('EncryptData', TextResult);
+                PostMsg.append('ProductName', document.getElementById("ProductName").value);
+                PostMsg.append('ProductDescribe', document.getElementById("ProductDescribe").value);
+                PostMsg.append('ProductSeoDescribe', document.getElementById("ProductSeoDescribe").value);
+                PostMsg.append('ProductSeoTittle', document.getElementById("ProductSeoTittle").value);
+                PostMsg.append('GetSet', document.getElementById("GetSet").value);
+                PostMsg.append('ProductTittle', document.getElementById("ProductTittle").value);
+                PostMsg.append('ProductShortTittle', document.getElementById("ProductShortTittle").value);
+                PostMsg.append('AllImageURL', document.getElementById("AllImageURL").value);
+                PostMsg.append('FormType', CurrentColumnType);
+              
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                    GetArticle(CurrentColumnType,CurrentPage,"Desc");
+                    document.body.scrollTop=document.documentElement.scrollTop=0;
+                    }
+                });
+}
+function NewArticle()
+{
+document.getElementById("ActCaption").innerHTML="当前模式文章创建模式";
+
+CurrentProductID=0;
+}
+
+function SetArticleType(ArticleType)
+{
+CurrentColumnType=ArticleType;
+}
+
+function toUtf8(str) {   
+    var out, i, len, c;   
+    out = "";   
+    len = str.length;   
+    for(i = 0; i < len; i++) {   
+        c = str.charCodeAt(i);   
+        if ((c >= 0x0001) && (c <= 0x007F)) {   
+            out += str.charAt(i);   
+        } else if (c > 0x07FF) {   
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));   
+            out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));   
+            out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+        } else {   
+            out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));   
+            out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));   
+        }   
+    }   
+    return out;   
+}
+
+</script>
+</body>
+
+</html>

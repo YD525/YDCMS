@@ -1,0 +1,155 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=false;
+@html->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+
+    <style>
+        .chart {
+            height:500px;
+        }
+    </style>
+
+<body>
+    <div id="wrapper">
+ {@#code+=nav}
+<!-- ROW  -->
+(@_pluguicodestart_@)
+<!-- /. ROW  -->
+ {@#code+=footer}
+ <script>
+
+
+GetAllPulgin();
+GetPlugList();
+function GetAllPulgin()
+{
+    document.getElementById("pulginslist").innerHTML = "";
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetAllPlugin",
+                    success: function (data) {
+
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].lockerid+ "</td>";
+                                richtext = richtext + "<td><img src='" + data[i].pulgimg + "' style='width:100px;height:100px;'/></td>";
+                                richtext = richtext + "<td>" + data[i].pulgmessage + "</td>";
+                                richtext = richtext + "<td>" + data[i].pulgname + "</td>";
+                                richtext = richtext + "<td>" + data[i].pulgversion + "</td>";
+                                richtext = richtext + "<td>" + data[i].pulgdsp + "</td>";
+                                richtext = richtext + "<td>" + data[i].updatasrc + "</td>";
+                                richtext = richtext + "<td>" + data[i].pulgcheck + "</td>";
+                                richtext = richtext + "<td>" + "<a  class='btn btn-info' onclick='ShowUI(\""+ data[i].lockerid +"\",\""+  data[i].pulgname +"\")'  data-toggle='modal' data-target='#myModal'>控制面板</a>" + "<a  class='btn btn-success' onclick='ActivePulgin(\""+ data[i].lockerid +"\",\""+ "true" +"\")'>启用</a><a  class='btn btn-danger' onclick='ActivePulgin(\""+ data[i].lockerid +"\",\""+"false" +"\")'>停用</a><a  class='btn btn-danger' onclick='DelectPulgin(\""+ data[i].lockerid +"\",\""+ data[i].pulgcheck +"\")'>卸载</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("pulginslist").innerHTML = richtext;
+                        }
+                        
+
+                    }
+                });
+}
+function DelectPulgin(ID,Check)
+{
+if(Check=="False")
+{
+
+   $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=DelectPulg&ID="+ID,
+                    success: function (data) {
+                    alert(data);
+                    GetAllPulgin();
+                    }
+                });
+
+}
+else
+{
+alert("请先停用后再尝试卸载");
+}
+}
+function GetPlugList()
+{
+   $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetInstallPulg",
+                    success: function (data) {
+
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].ID+ "</td>";
+                                richtext = richtext + "<td>" + data[i].FileName + "</td>";
+                                richtext = richtext + "<td>" + data[i].FileSize + "</td>";
+                                richtext = richtext + "<td>" + data[i].UPLoadByUser + "</td>";
+                                richtext = richtext + "<td>" + "<a  class='btn btn-info' onclick='InstallThis(\""+ data[i].ID +"\")' >安装</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("InstallPlugList").innerHTML = richtext;
+                        }
+                    }
+                });
+}
+function InstallThis(ID)
+{
+     $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=InstallPulg&ID="+ID,
+                    success: function (data) {
+                    alert(data);
+                    GetAllPulgin();
+                    }
+                });
+}
+
+function ShowUI(ID,Tittle)
+{
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetPluginUICode&ID="+ID,
+                    success: function (data) {
+                    document.getElementById("LockerUICode").innerHTML=data;
+                    document.getElementById("myModalLabel").innerHTML=Tittle;
+                    }
+                });
+}
+
+function ActivePulgin(ID,Check)
+{
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=ActivePulg&ID="+ID+"&PulgCheck="+Check,
+                    success: function (data) {
+                    alert(data);
+                    GetAllPulgin();
+                    }
+                });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,433 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+<body>
+    <style>
+        .chart {
+            height: 500px;
+        }
+    </style>
+  
+    <div id="wrapper">
+        {@#code+=nav}
+      <script>
+     SelectNav("综合报表");
+     </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                  Comprehensive statistics <small> User traffic And Background load</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+                <!-- /. ROW  -->
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder blue">
+                            <div class="panel-left pull-left blue">
+                                <i class="fa fa-eye fa-5x"></i>
+                            </div>
+                            <div class="panel-right">
+                                <h3 id="VisitCount"></h3>
+                                <strong>Number of Users On Daily</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder blue">
+                            <div class="panel-left pull-left blue">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="panel-right">
+                                <h3 id="DBCount"> </h3>
+                                <strong> DataBaseCount</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder blue">
+                            <div class="panel-left pull-left blue">
+                                <i class="fa fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="panel-right">
+                                <h3 id="EmailCount"></h3>
+                                <strong>RecvMessages</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary text-center no-boder blue">
+                            <div class="panel-left pull-left blue">
+                                <i class="fa fa-users fa-5x"></i>
+                            </div>
+                            <div class="panel-right">
+                                <h3 id="DarkUserCount"></h3>
+                                <strong>TempBlackList</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                            Statistics of Page Views Per Month
+                            </div>
+                            <div class="panel-body">
+                                <div id="VisitHistoryChart"  class="chart" style="margin:0,auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Single Month Page Views Report
+                            </div>
+                            <div class="panel-body">
+                           <div class="table-responsive">
+                           <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>UserName</th>
+                                                <th>InterviewTime</th>
+                                                <th>FirstPage</th>
+                                                <th>LastPage</th>
+                                                <th>VisitCounts</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="VisitHistoryTable">
+                                          
+                                        </tbody>
+                                    </table>
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                              BackgroundLoginDetails
+                            </div>
+                            <div class="panel-body">
+                                        <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>UserName</th>
+                                                <th>LoginMessage</th>
+                                                <th>LoginTime</th>
+                                                <th>LogoutTime</th>
+                                                <th>FromAddress</th>
+                                                <th>DataUpdateTime</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="LoginRecord">
+                                          
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                   <a class="btn btn-primary btn-lg" role="button" onclick="ClearLoginRecord()">DeleteAllLoginData</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                              Current Background Performance Usage
+                            </div>
+                            <div class="panel-body">
+                                <div id="morris-line-chart">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-md-3">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body easypiechart-panel">
+                                                    <h4>Cpu Rate</h4>
+                                                    <div class="easypiechart" id="easypiechart-blue" data-percent="82">
+                                                        <span class="percent" id="CpuUsage">0%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body easypiechart-panel">
+                                                    <h4>AvailableMemory</h4>
+                                                    <div class="easypiechart" id="easypiechart-orange" data-percent="55">
+                                                        <span class="percent" id="FreeRam"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body easypiechart-panel">
+                                                    <h4>DiskRate</h4>
+                                                    <div class="easypiechart" id="easypiechart-teal" data-percent="84">
+                                                        <span class="percent" id="SpaceUsage"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body easypiechart-panel">
+                                                    <h4>ThreadQueuePeakValue</h4>
+                                                    <div class="easypiechart" id="easypiechart-red" data-percent="46">
+                                                        <span class="percent" id="ThreadCount"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!--/.row-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                            LatestMailInformation
+                            </div>
+                            <div class="panel-body">
+                               <div class="list-group" id="NewEmailMessage">
+                               
+                                </div>
+                                <div class="text-right">
+                                    <a href="#">CheckMoreInformation<i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                RegisteredUsersOnTheSite
+                            </div>
+                            <div class="panel-body">
+                    <div class="table-responsive">       
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                UserName
+                            </th>
+                            <th>
+                                UserPassword
+                            </th>
+                            <th>
+                                UserType
+                            </th>
+                            <th>
+                                UserEmail
+                            </th>
+                            <th>
+                                IPAddress
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="UScenter">
+                    </tbody>
+                   </table>
+                   </div>
+                                    <div class="text-right">
+                                        <a href="#">CheckMoreInformation<i class="fa fa-arrow-circle-right"></i></a>
+                                    </div>
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                {@#code+=footer}
+ <script>
+ var time = window.setInterval(function () {
+          $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "Json",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=GetBrainMessage",
+              success: function (data) {
+                 document.getElementById("ThreadCount").innerHTML=data.ThreadCount;
+                 document.getElementById("CpuUsage").innerHTML=data.CpuUsage+"%";
+                 document.getElementById("FreeRam").innerHTML=data.FreeRam+"MB";
+                 document.getElementById("SpaceUsage").innerHTML="("+data.SpaceUsage+")MB";
+            }
+        });
+    },1000);
+     function ClearLoginRecord()
+     {
+     CallAjax("Type=ClearLoginRecord", "Get");
+     GetLoginRecord();
+     }
+      AutoGetVisitChart();
+      function AutoGetVisitChart()
+      {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      if (month < 10) {
+       month = "0" + month;
+       }
+      if (day < 10) {
+      day = "0" + day;
+      }
+        $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "text",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=GetVisitChart&Year="+year+"&Month="+month,
+            success: function (data) {
+            UpDataByChart(data,"VisitHistoryChart");
+            }
+         });
+        $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "Json",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=GetVisitTable&Year="+year+"&Month="+month,
+            success: function (data) {
+             if (data.length > 0) {
+             var richtext="";
+             for (i = 0; i < data.length; i++) {
+             richtext = richtext + "<tr>";
+             richtext = richtext + "<td>" + data[i].UserName+ "</td>";
+             richtext = richtext + "<td><span class='badge'>" + data[i].UPDataDay+ "</span></td>";
+             richtext = richtext + "<td><input class='form-control' value='" + data[i].FirstVisitUrl+ "'></td>";
+             richtext = richtext + "<td><input class='form-control' value='" + data[i].LastVisitUrl+ "'></td>";
+             richtext = richtext + "<td>" + data[i].ClickCount+ "</td>";
+             richtext = richtext + "</tr>";
+             }
+              document.getElementById("VisitHistoryTable").innerHTML = richtext;
+             }
+            }
+         });
+          document.getElementById("VisitCount").innerHTML = CallAjax("Type=GetVisitCountByDay", "Get");
+          document.getElementById("DBCount").innerHTML = CallAjax("Type=GetDBCount", "Get");
+          document.getElementById("EmailCount").innerHTML = CallAjax("Type=GetEmailCount", "Get");
+          document.getElementById("DarkUserCount").innerHTML = CallAjax("Type=GetDarkUserCount", "Get");
+            $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "Json",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=UScenter",
+            success: function (data) {
+             if (data.length > 0) {
+             var richtext="";
+             var MaxCount=0;
+             for (i = 0; i < data.length; i++) {
+             MaxCount++;
+             if(MaxCount>10)break;
+             richtext = richtext + "<tr>";
+             richtext = richtext + "<td>" + data[i].ID+ "</td>";
+             richtext = richtext + "<td>" + data[i].userid+ "</td>";
+             richtext = richtext + "<td>" + data[i].userpassword+ "</td>";
+             richtext = richtext + "<td>" + data[i].usertype+ "</td>";
+             richtext = richtext + "<td>" + data[i].useremail+ "</td>";
+             richtext = richtext + "<td>" + data[i].userfristfromaddress+ "</td>";
+             richtext = richtext + "</tr>";
+             }
+              document.getElementById("UScenter").innerHTML = richtext;
+             }
+            }
+         });
+           $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "Json",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=GetNewEmailMessage",
+            success: function (data) {
+             if (data.length > 0) {
+             var richtext="";
+             for (i = 0; i < data.length; i++) {                     
+             richtext = richtext + "<a class='list-group-item'>";
+             richtext = richtext + "<td>" + data[i].Tittle+ "</td>";
+             richtext = richtext + "<span class='badge'>";
+             richtext = richtext + "<td>" + data[i].EmailAddress+ "</td>";
+             richtext = richtext + "</span>";
+             richtext = richtext + "<span class='badge'>";
+             richtext = richtext + "<td>" + data[i].EmailType+ "</td>";
+             richtext = richtext + "</span>";
+             richtext = richtext + "</a>";
+             }
+              document.getElementById("NewEmailMessage").innerHTML = richtext;
+             }
+            }
+         });
+          GetLoginRecord();
+      
+         }
+         function GetLoginRecord()
+         {
+            document.getElementById("LoginRecord").innerHTML ="";
+            $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "Json",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=GetLoginRecord",
+            success: function (data) {
+             if (data.length > 0) {
+             var richtext="";
+             for (i = 0; i < data.length; i++) {
+             richtext = richtext + "<tr>";
+             richtext = richtext + "<td>" + data[i].username+ "</td>";
+             richtext = richtext + "<td>" + data[i].msg+ "</td>";
+             richtext = richtext + "<td>" + data[i].starttime+ "</td>";
+             richtext = richtext + "<td>" + data[i].lasttime+ "</td>";
+             richtext = richtext + "<td>" + data[i].ipaddress+ "</td>";
+             richtext = richtext + "<td>" + data[i].lockday+ "</td>";
+             richtext = richtext + "</tr>";
+             }
+              document.getElementById("LoginRecord").innerHTML = richtext;
+             }
+            }
+         });
+         }
+         function UpDataByChart(Message,FormCon) {
+            require(
+            (testHelper.hasURLParam('en')
+                ? [
+                    'echarts',
+                ]
+                : [
+                    'echarts'
+                ]
+            ).concat(
+                [
+                ]
+            ),
+        function (echarts) {
+                var chart = echarts.init(document.getElementById(FormCon));
+                 chart.showLoading();
+                 chart.hideLoading();
+                 chart.setOption(option = JSON.parse(Message));
+                window.onresize = chart.resize;
+            }
+        );
+}
+        
+     </script>
+</body>
+</html>

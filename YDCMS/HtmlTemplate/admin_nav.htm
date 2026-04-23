@@ -1,0 +1,271 @@
+﻿@->CreatPath=null;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;
+@html->
+   <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><strong>CSJ Southampton</strong></a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right" id="AutoHide">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages" id="LockerEmailMessage">
+                     
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong> DeafaultPool</strong>
+                                        <span class="pull-right text-muted" id="PAA"></span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 100%"  id="PAAA">
+                                            <span class="sr-only" id="PAAAC"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>UserPool</strong>
+                                        <span class="pull-right text-muted" id="QAA"></span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar"  aria-valuemin="0" aria-valuemax="100" style="width: 100%" id="QAAA">
+                                            <span class="sr-only" id="QAAAC"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>SystemPool</strong>
+                                        <span class="pull-right text-muted" id="EAA"></span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar"  aria-valuemin="0" aria-valuemax="100" style="width: 100%" id="EAAA">
+                                            <span class="sr-only" id="EAAAC"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>EmergentPool</strong>
+                                        <span class="pull-right text-muted" id="RAA"></span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar"  aria-valuemin="0" aria-valuemax="100" style="width: 100%"  id="RAAA">
+                                            <span class="sr-only"  id="RAAAC"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                     
+                    </ul>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+              
+            
+            
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a><i class="fa fa-user fa-fw"></i> {@fromToken:username}</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-gear fa-fw"></i> Setting</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a onclick="ExitUser()"><i class="fa fa-sign-out fa-fw"></i>ExitUser</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+   <!--/. NAV TOP   class=active-menu-->
+        <nav class="navbar-default navbar-side" role="navigation">
+      
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a id="综合报表" href="{@admin:HrefTarget:index}" class=""><i class="fa fa-dashboard"></i> ComprehensiveReport </a>
+                    </li>
+                    <li>
+                        <a id="用户管理" href="{@admin:HrefTarget:usermanager}" class=""><i class="fa fa-edit"></i> UserManagement </a>
+                    </li>
+                    <li>
+                        <a id="区块链管理" href="{@admin:HrefTarget:blockmanager}" class=""><i class="fa fa-fw fa-file"></i> BlockChainManagement</a>
+                    </li>
+                    <li>
+                        <a id="栏目管理" href="{@admin:HrefTarget:navmanager}" class=""><i class="fa fa-desktop"></i> ColumnManagement</a>
+                    </li>
+                    <li>
+                        <a id="文章管理" href="{@admin:HrefTarget:articlemanager}" class=""><i class="fa fa-bar-chart-o"></i> ArticleManagement</a>
+                    </li>
+                    <li>
+                        <a id="图片集管理" href="{@admin:HrefTarget:imagemanager}" class=""><i class="fa fa-qrcode"></i> PicturesManagement</a>
+                    </li>
+                    <li>
+                        <a id="文件管理"  href="{@admin:HrefTarget:filemanager}" class=""><i class="fa fa-table"></i> FilesManagement</a>
+                    </li>
+                    <li>
+                        <a id="模板管理" href="{@admin:HrefTarget:templatemanager}" class=""><i class="fa fa-edit"></i> TemplateManagement </a>
+                    </li>
+                    <li>
+                     <a id="插件管理" href="{@admin:HrefTarget:pluginmanager}" class=""><i class="fa fa-edit"></i> PluginManagement </a>
+                    </li>
+                    
+                    <li>
+                        <a id="引擎管理" href="{@admin:HrefTarget:enginemanager}" class=""><i class="fa fa-edit"></i> EngineManagement</a>
+                    </li>
+                    <li>
+                        <a id="防御体系" href="{@admin:HrefTarget:defencemanager}" class=""><i class="fa fa-edit"></i> DefenseManagement</a>
+                    </li>
+                  
+                    <li>
+                        <a id="多线程任务" href="{@admin:HrefTarget:threadworkmanager}" class=""><i class="fa fa-fw fa-file"></i> ThreadTasksManagement</a>
+                    </li>
+                      
+                    <li>
+                        <a id="资质审核" href="{@admin:HrefTarget:qualificationmanager}" class=""><i class="fa fa-fw fa-file"></i> QualificationReview</a>
+                    </li>
+                    <li>
+                        <a id="训练词库" href="{@admin:HrefTarget:traininglibrary}" class=""><i class="fa fa-fw fa-file"></i> TrainingLibrary</a>
+                    </li>
+                    <li>
+                        <a id="系统设置" href="{@admin:HrefTarget:settingmanager}" class=""><i class="fa fa-fw fa-file"></i> SystemSetting</a>
+                    </li>
+                    <!--@ENDNAV-->
+                </ul>
+            </div>
+        </nav>
+<script>
+function SelectNav(SelectName)
+{
+ document.getElementById(SelectName).className="active-menu";
+}
+</script>
+<script>
+var PoolTimer = window.setInterval(function () {
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=CheckPoolValue",
+                    success: function (data) {
+                    if(data.QueuePoolThreadCount<100)
+                    {
+                    document.getElementById("PAA").innerHTML=data.QueuePoolThreadCount+"Count";
+                    document.getElementById("PAAA").style="width: "+data.QueuePoolThreadCount+"%";
+                    document.getElementById("PAAAC").innerHTML=data.QueuePoolThreadCount+"Count";
+                    }
+                    if(data.UserPoolThreadCount<100)
+                    {
+                    document.getElementById("QAA").innerHTML=data.UserPoolThreadCount+"Count";
+                    document.getElementById("QAAA").style="width: "+data.UserPoolThreadCount+"%";
+                    document.getElementById("QAAAC").innerHTML=data.UserPoolThreadCount+"Count";
+                    }
+                    if(data.SystemPoolThreadCount<100)
+                    {
+                    document.getElementById("EAA").innerHTML=data.SystemPoolThreadCount+"Count";
+                    document.getElementById("EAAA").style="width: "+data.SystemPoolThreadCount+"%";
+                    document.getElementById("EAAAC").innerHTML=data.SystemPoolThreadCount+"Count";
+                    }
+                   if(data.EmergencyPoolThreadCount<100)
+                   {
+                    document.getElementById("RAA").innerHTML=data.EmergencyPoolThreadCount+"Count";
+                    document.getElementById("RAAA").style="width: "+data.EmergencyPoolThreadCount+"%";
+                    document.getElementById("RAAAC").innerHTML=data.EmergencyPoolThreadCount+"Count";
+                   }
+             }
+                });
+ },1000);
+GetEmailMessage();
+function GetEmailMessage()
+{
+$.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "Json",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=GetNewEmailMessage",
+            success: function (data) {
+             if (data.length > 0) {
+             var richtext="";
+             for (i = 0; i < data.length; i++) {                    
+             richtext = richtext + "<li>"; 
+             richtext = richtext + "<a href='#'>";
+             richtext = richtext + "<div><strong>" + data[i].Tittle+ "</strong>";
+             richtext = richtext + " <span class='pull-right text-muted'>";
+             richtext = richtext + "<em>" + data[i].EmailAddress+ "</em>";
+             richtext = richtext + "</span> </div>";
+             richtext = richtext + "  <div>"+ data[i].EmailType+"</div>";
+             richtext = richtext + "<a>";
+             richtext = richtext + " </li>";
+             if(i>0)
+             {
+             richtext = richtext +  "<li class='divider'></li>"
+             }
+             }
+              document.getElementById("LockerEmailMessage").innerHTML = richtext;
+             }
+            }
+         });
+}
+ 
+function ExitUser()
+{
+    $.ajax({
+            type: "Get",
+            async: "false",
+            dataType: "text",
+            url: "(@_WebRequestUrl_@)",
+            data: "type=clearadmin",
+            success: function (data) {
+            alert(data);
+             
+            }
+         });
+}
+</script>
+ <!-- /. NAV SIDE  -->
+     

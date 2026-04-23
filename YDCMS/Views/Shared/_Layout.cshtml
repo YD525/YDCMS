@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="@WebMaster.DataManager.DeFine.DefWebUrl/lib/esl.js"></script>
+    <script src="@WebMaster.DataManager.DeFine.DefWebUrl/lib/config.js"></script>
+    <script src="@WebMaster.DataManager.DeFine.DefWebUrl/lib/facePrint.js"></script>
+    <script src="@WebMaster.DataManager.DeFine.DefWebUrl/lib/testHelper.js"></script>
+
+    <script src="@WebMaster.DataManager.DeFine.DefWebUrl/ueditor/ueditor.config.js" type="text/javascript"></script>
+    <script src="@WebMaster.DataManager.DeFine.DefWebUrl/ueditor/ueditor.all.min.js" type="text/javascript"></script>
+</head>
+<body>
+    
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - CSJ Southampton</p>
+        </footer>
+    </div>
+    <script>
+        function CallAjax(data, type) {
+        var gettext = "";
+        $.ajax({
+            type: type,
+            async: false,
+            dataType: "text",
+            url: "@Html.Raw(HttpUtility.HtmlDecode(WebMaster.DataManager.DeFine.DefWebRequestUrl))",
+            data: data,
+            success: function (data) {
+            gettext = data;
+            }
+        });
+        return gettext;
+        }
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

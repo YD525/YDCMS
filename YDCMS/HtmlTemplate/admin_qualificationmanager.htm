@@ -1,0 +1,111 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+<body>
+    <style>
+        .chart {
+            height: 500px;
+        }
+    </style>
+    <div id="wrapper">
+        {@#code+=nav}
+        <script>
+            SelectNav("资质审核");
+        </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                   QualificationReview <small>ReviewDoctorQualifications</small>
+                </h1>
+            </div>
+            <div id="page-inner">
+           
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+DoctorQualificationReview
+</div>
+<div class="panel-body">
+	<table class="table">
+				<thead>
+					<tr>
+						<th>
+							ID
+						</th>
+						<th>
+							UserID
+						</th>
+						<th>
+							UserLevel
+						</th>
+						<th>
+							DoctorRegPic
+						</th>
+                        <th>
+							DoctorOld
+						</th>
+                       <th>
+							DoctorLike
+						</th>
+                        <th>
+							Options
+						</th>
+					</tr>
+				</thead>
+				<tbody id="DoctorList">
+			
+				</tbody>
+			</table>
+</div>
+</div>
+</div>
+ {@#code+=footer}
+<script>
+GetAllWaitReview();
+function GetAllWaitReview()
+{
+ document.getElementById("DoctorList").innerHTML ="";
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetAllWaitReview",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].ID + "</td>";
+                                richtext = richtext + "<td>" + data[i].UserID + "</td>";
+                                richtext = richtext + "<td>" + data[i].UserLevel + "</td>";
+                                richtext = richtext + "<td><img Src=\"" + data[i].DoctorRegPic + "\" style='width:260px;height:500px;'/></td>";
+                                richtext = richtext + "<td>" + data[i].DoctorOld + "</td>";
+							    richtext = richtext + "<td>" + data[i].DoctorLike + "</td>";
+                                richtext = richtext + "<td>" + "<a  class='btn btn-info' onclick='ATDoctor(\""+data[i].UserID+"\")'>approval</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("DoctorList").innerHTML = richtext;
+                        }
+                           
+                   }
+});
+}
+function ATDoctor(UserID)
+{
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=ATDoctor&UserID="+UserID,
+                    success: function (data) {
+                    window.location.reload();
+                   }
+});
+}
+</script>            
+</body>
+</html>

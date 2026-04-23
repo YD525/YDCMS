@@ -1,0 +1,226 @@
+﻿@->CreatPath=false;FileSource=ces\Admin\login\AutoCreat;TmpName=auto;StylePath=AutoSearch;AdminLocking=true;
+@html->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+{@#code+=head}
+    <style>
+        .chart {
+            height:500px;
+        }
+    </style>
+<body>
+    <div id="wrapper">
+        {@#code+=nav}
+      <script>
+     SelectNav("多线程任务");
+     </script>
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                  AssignThread<small>AssignNewTasks&nbsp;to&nbsp;TheThreadPool</small>
+                </h1>
+            </div>
+   
+ <div id="page-inner">
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+DelayedTaskForce
+</div>
+<div class="panel-body">
+ <div class="form-group">
+            
+<a class="btn btn-info" onclick="SetRunCode('ReadAllTemplate')">CompileTemplate</a>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ExecuteCode</i></span><input type="text" class="form-control" placeholder="DeFine"  id="NRunCode">
+</div>
+<a class="btn btn-info" style="margin:20px 0px 0px 0px;" onclick="SetRunPool('EmergencyPool')">EmergentPool</a>
+<a class="btn btn-info" style="margin:20px 0px 0px 0px;" onclick="SetRunPool('SystemPool')">SystemPool</a>
+<a class="btn btn-info" style="margin:20px 0px 0px 0px;" onclick="SetRunPool('UserPool')">UserPool</a>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ExecutionTaskPool</i></span><input type="text" class="form-control" placeholder="TaskPool"  id="NRunPool">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ExecutionDelay</i></span><input type="text" class="form-control" placeholder="Second"  id="NSleep">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>Whether&nbsp;to&nbsp;Execute&nbsp;in&nbsp;a&nbsp;Loop</i></span><input type="text" class="form-control" placeholder="Boolean"  id="NWhile">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>TaskNoteName</i></span><input type="text" class="form-control" placeholder="Describe this task"  id="NDspText">
+</div>
+<a class="btn btn-success" onclick="NewPoolItem()" style="float:right;margin-top:25px;">Add&nbsp;to&nbsp;TaskPool</a>
+                
+ </div>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+TriggerTaskGroup
+</div>
+<div class="panel-body">
+ <div class="form-group">
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>AcceptPluginTrigger</i></span><input type="text" class="form-control" placeholder="DeFine">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>TriggeringConditions</i></span><input type="text" class="form-control" placeholder="DeFine">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ExecuteCode</i></span><input type="text" class="form-control" placeholder="DeFine">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>ExecutionTaskPool</i></span><input type="text" class="form-control" placeholder="Don't set">
+</div>
+<div class="form-group input-group" style="margin:20px 0px 0px 0px;">
+<span class="input-group-addon"><i>TaskNoteName</i></span><input type="text" class="form-control" placeholder="DescribeTheTask">
+</div>
+<a class="btn btn-success" onclick='' style="float:right;margin-top:25px;">Add&nbsp;to&nbsp;TaskPool</a>
+                
+ </div>
+</div>
+</div>
+</div>
+<div class="col-md-12">   
+<div class="panel panel-default">
+<div class="panel-heading">
+ManageTaskPool
+</div>
+<div class="panel-body">
+ <div class="form-group">
+   <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>WorkAction</th>
+                                            <th>RunCode</th>
+                                            <th>Sleep</th>
+                                            <th>RunPool</th>
+                                            <th>While</th>
+                                            <th>Active</th>
+                                            <th>DspText</th>
+                                            <th>Setting</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ThreadWorking">
+                                    </tbody>
+   </table>
+                
+ </div>
+</div>
+</div>
+</div>
+ <!-- /. ROW  -->
+ {@#code+=footer}
+<script>
+function SetRunCode(NText)
+{
+    document.getElementById("NRunCode").value=NText+";";
+}
+function SetRunPool(NText)
+{
+    document.getElementById("NRunPool").value=NText;
+}
+function NewPoolItem()
+{
+                var PostMsg = new FormData();
+                PostMsg.append('type', "AddWorkTime");
+                PostMsg.append('RunCode',document.getElementById("NRunCode").value);
+                PostMsg.append('Sleep',document.getElementById("NSleep").value);
+                PostMsg.append('RunPool',document.getElementById("NRunPool").value);
+                PostMsg.append('While',document.getElementById("NWhile").value);
+                PostMsg.append('DspText',document.getElementById("NDspText").value);
+                PostMsg.append('Active',"False");
+     
+                $.ajax({
+                    type: "Post",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: PostMsg,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                     GetWorkTimeList();
+                    }
+                });
+}
+GetWorkTimeList();
+function SetStartPoolItem(ID)
+{
+$.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=StartWorkTimeItem&ID="+ID,
+                    success: function (data)
+                    {
+                        GetWorkTimeList();
+                    }
+ });
+}
+function SetEndPoolItem(ID)
+{
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=EndWorkTimeItem&ID="+ID,
+                    success: function (data)
+                    {
+                        GetWorkTimeList();
+                    }
+   });
+}
+function DelectPoolItem(ID)
+{
+    $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "text",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=DelectWorkTimeItem&ID="+ID,
+                    success: function (data)
+                    {
+                        GetWorkTimeList();
+                    }
+   });
+}
+function GetWorkTimeList()
+{
+ document.getElementById("ThreadWorking").innerHTML = "";
+ $.ajax({
+                    type: "Get",
+                    async: "false",
+                    dataType: "Json",
+                    url: "(@_WebRequestUrl_@)",
+                    data: "type=GetWorkTimeList",
+                    success: function (data) {
+                     if (data.length > 0) {
+                            var richtext = "";
+                            for (i = 0; i < data.length; i++) {
+                                richtext = richtext + "<tr>";
+                                richtext = richtext + "<td>" + data[i].ID+ "</td>";
+                                richtext = richtext + "<td>" + data[i].WorkAction+ "</td>";
+                                richtext = richtext + "<td>" + data[i].RunCode+ "</td>";
+                                richtext = richtext + "<td>" + data[i].Sleep+ "</td>";
+                                richtext = richtext + "<td>" + data[i].RunPool+ "</td>";
+                                richtext = richtext + "<td>" + data[i].While+ "</td>";
+                                richtext = richtext + "<td>" + data[i].Active+ "</td>";
+                                richtext = richtext + "<td>" + data[i].DspText+ "</td>";
+                                richtext = richtext + "<td>" + "<a  class='btn btn-info' onclick='SetStartPoolItem(\""+data[i].ID+"\")'>Start</a><a  class='btn btn-info' onclick='SetEndPoolItem(\""+data[i].ID+"\")'>Stop</a><a  class='btn btn-danger' onclick='DelectPoolItem(\""+data[i].ID+"\")'>Delete</a>" + "</td>";
+                                richtext = richtext + "</tr>";
+                            }
+                            document.getElementById("ThreadWorking").innerHTML = richtext;
+                        }
+                        
+                    }
+ });
+}
+</script>
+</body>
+</html>
