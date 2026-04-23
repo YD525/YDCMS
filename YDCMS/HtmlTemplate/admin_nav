@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><strong>奥铭科技管理系统</strong></a>
+                <a class="navbar-brand" href="index.html"><strong>管理系统</strong></a>
             </div>
 
             <ul class="nav navbar-top-links navbar-right" id="AutoHide">
