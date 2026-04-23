@@ -19,3 +19,10 @@ JavaScript frameworks
 Frontend UI libraries
 Build tools and utilities
 Runtime dependencies
+
+
+CMS Backend System Introduction
+
+This project is a Content Management System (CMS) backend designed to provide a flexible and extensible web content generation platform.
+
+It supports both dynamic page rendering and static page generation, making it suitable for a wide range of website deployment scenarios.
