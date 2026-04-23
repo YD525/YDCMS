@@ -1,4 +1,4 @@
-📌 Framework & Dependency Notice（声明）
+📌 Framework & Dependency Notice
 
 This project contains multiple JavaScript frameworks and third-party libraries.
 
