@@ -1,12 +1,7 @@
-使用说明数据库SqlServer
-开发语言ASP.net MVC
-根目录dbo.sql是备份文件
-要导入到Printerdata程序才会正常运行
-之后没了默认登陆
-密码
-admin
-123456
-登录地址
-/Web/LoginUser 
-注册地址
-/Web/RegUser
+User Guide Database: SQL Server
+Development Language: ASP.NET MVC
+dbo.sql in the root directory is a backup file. 
+Default login is not specified. 
+Password: admin 123456 
+Login Address: /Web/LoginUser 
+Registration Address: /Web/RegUser
