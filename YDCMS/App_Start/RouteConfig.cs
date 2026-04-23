@@ -26,10 +26,10 @@ namespace WebManager
             SettingHelper.initialization();
 
 
-            //WorkingTime.StartWorkingService(true);//启动定期任务处理服务
+            WorkingTime.StartWorkingService(true);//启动定期任务处理服务
 
-            //BrainConfig.StartListenService(false);//启动性能监听服务
-            //CoreHelper.ThreadCoreService(true);//启动线程池服务
+            BrainConfig.StartListenService(false);//启动性能监听服务
+            CoreHelper.ThreadCoreService(true);//启动线程池服务
             WebDefence.StartDefenceService(true);//启动网站防御服务
            
             HtmlCreatEngine.ReadAllTemplate(DeFine.TemplatesPath, true);
