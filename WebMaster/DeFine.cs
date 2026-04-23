@@ -7,11 +7,11 @@ namespace WebMaster.DataManager
 {
     public class DeFine
     {
-        public static string DBIPAddress = PIN.AESEncrypt("sql.w209.vhostgo.com");
-        public static string DBName = "printerdata";
+        public static string DBIPAddress = PIN.AESEncrypt("xxx.com");
+        public static string DBName = "xxx";
         public static int DBPort = 3306;
-        public static string DBUSName = PIN.Encrypt("printerdata");
-        public static string DBUSPassword = PIN.Encrypt("548096zzh");
+        public static string DBUSName = PIN.Encrypt("xxx");
+        public static string DBUSPassword = PIN.Encrypt("xxx");
         public static string TemplatesPath = AppDomain.CurrentDomain.BaseDirectory + @"HtmlTemplate\";
         public static string SystemFilePath = AppDomain.CurrentDomain.BaseDirectory + @"DataFile\";
         public static string UPLoadFile = AppDomain.CurrentDomain.BaseDirectory + @"FileList\";
